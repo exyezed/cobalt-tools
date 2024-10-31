@@ -23,3 +23,17 @@ Bypass the download button and display options to download the video directly fr
 #### [Install Script](https://update.greasyfork.org/scripts/515024/Cobalt%20Tools%20%28Direct%20YouTube%20Video%20Downloader%29.user.js)
 
 ![image](https://github.com/user-attachments/assets/b697e04f-3f35-4e75-8cfb-188da10624ea)
+
+## 3. Cobalt Tools (SoundCloud Direct Downloader)
+
+Integrate a download button for SoundCloud tracks and open original cover art.
+
+#### [Install Script](https://update.greasyfork.org/scripts/515120/Cobalt%20Tools%20%28SoundCloud%20Direct%20Downloader%29.user.js)
+
+![image](https://github.com/user-attachments/assets/29200e8a-1fce-4cd1-a5d6-ca24e57adb5c)
+
+![image](https://github.com/user-attachments/assets/3ec8b343-5941-411d-bfbf-9028b97a3691)
+
+![image](https://github.com/user-attachments/assets/05e0f6fa-b5b6-400d-86f0-817b5696ef84)
+
+![image](https://github.com/user-attachments/assets/6171a4fe-943b-4edd-b259-c947262df021)
