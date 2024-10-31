@@ -2,7 +2,7 @@
 // @name         Cobalt Tools (Direct YouTube Video Downloader)
 // @description  Bypass the download button and display options to download the video directly from the YouTube page.
 // @icon         https://raw.githubusercontent.com/exyezed/cobalt-tools/refs/heads/main/extras/cobalt-tools.png
-// @version      1.0
+// @version      1.1
 // @author       exyezed
 // @namespace    https://github.com/exyezed/cobalt-tools/
 // @supportURL   https://github.com/exyezed/cobalt-tools/issues
@@ -87,12 +87,29 @@
                     font-size: 18px;
                     font-weight: 700;
                 }
+
+                .title-link {
+                    text-decoration: none;
+                    color: inherit;
+                    cursor: pointer;
+                    transition: opacity 0.2s ease;
+                }
+
+                .title-link:hover {
+                    opacity: 0.8;
+                }
  
                 .download-status {
                     text-align: center;
                     margin: 16px 0;
                     font-size: 12px;
                     display: none;
+                }
+
+                .button-container {
+                    display: flex;
+                    justify-content: center;
+                    gap: 8px;
                 }
             </style>
             <div style="padding: 16px;">
@@ -104,19 +121,43 @@
                         </svg>
                     </div>
                     <div>
-                        <div class="title">cobalt.tools</div>
+                        <a href="https://instances.cobalt.best/" target="_blank" rel="noopener noreferrer" class="title-link">
+                            <div class="title">cobalt.tools</div>
+                        </a>
                         <div class="subtitle">direct youtube video downloader</div>
                     </div>
                 </div>
                 <div id="quality-options" class="quality-grid"></div>
                 <div class="download-status" id="download-status"></div>
-                <div style="display: flex; justify-content: flex-end; gap: 8px;">
+                <div class="button-container">
                     <button id="cancel-button" style="background: transparent; border: 1px solid #e1e1e1; color: #e1e1e1; font-size: 14px; font-weight: 500; padding: 8px 16px; cursor: pointer; font-family: inherit; border-radius: 18px;">Cancel</button>
                     <button id="download-button" style="background: transparent; border: 1px solid #e1e1e1; color: #e1e1e1; font-size: 14px; font-weight: 500; padding: 8px 16px; border-radius: 18px; cursor: pointer; font-family: inherit;">Download</button>
                 </div>
             </div>
         `;
-        return dialog;
+
+        const backdrop = document.createElement('div');
+        backdrop.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 9998;
+        `;
+        document.body.appendChild(backdrop);
+
+        backdrop.addEventListener('click', () => {
+            closeDialog(dialog, backdrop);
+        });
+
+        return { dialog, backdrop };
+    }
+
+    function closeDialog(dialog, backdrop) {
+        dialog.remove();
+        backdrop.remove();
     }
  
     function extractVideoId(url) {
@@ -130,7 +171,7 @@
         return titleElement ? titleElement.textContent.trim() : 'youtube-video';
     }
  
-    function downloadVideo(quality, videoId, dialog) {
+    function downloadVideo(quality, videoId, dialog, backdrop) {
         const statusElement = dialog.querySelector('#download-status');
         statusElement.style.display = 'block';
         statusElement.textContent = 'Preparing download...';
@@ -153,7 +194,7 @@
                         triggerDirectDownload(data.url, filename);
                         
                         setTimeout(() => {
-                            dialog.remove();
+                            closeDialog(dialog, backdrop);
                         }, 1000);
                     } else {
                         statusElement.textContent = 'Error: No download URL found';
@@ -171,7 +212,7 @@
     }
  
     function modifyQualityOptionsAndRemoveElements() {
-        const dialog = createDownloadDialog();
+        const { dialog, backdrop } = createDownloadDialog();
         const qualityOptions = dialog.querySelector('#quality-options');
         let currentVideoId = null;
  
@@ -219,7 +260,7 @@
         const downloadButton = dialog.querySelector('#download-button');
  
         if (cancelButton) {
-            cancelButton.addEventListener('click', () => dialog.remove());
+            cancelButton.addEventListener('click', () => closeDialog(dialog, backdrop));
             cancelButton.addEventListener('mouseover', () => {
                 cancelButton.style.background = '#f3727f';
                 cancelButton.style.borderColor = '#f3727f';
@@ -236,7 +277,7 @@
             downloadButton.addEventListener('click', () => {
                 const selectedQuality = dialog.querySelector('input[name="quality"]:checked');
                 if (selectedQuality && currentVideoId) {
-                    downloadVideo(selectedQuality.value, currentVideoId, dialog);
+                    downloadVideo(selectedQuality.value, currentVideoId, dialog, backdrop);
                 }
             });
             downloadButton.addEventListener('mouseover', () => {
@@ -318,4 +359,4 @@
  
     interceptDownloadButton();
     console.log('Cobalt Tools userscript is running');
- })();
+})();
