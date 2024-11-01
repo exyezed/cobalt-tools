@@ -2,7 +2,7 @@
 // @name         Cobalt Tools (Direct YouTube Video Downloader)
 // @description  Bypass the download button and display options to download the video directly from the YouTube page.
 // @icon         https://raw.githubusercontent.com/exyezed/cobalt-tools/refs/heads/main/extras/cobalt-tools.png
-// @version      1.3
+// @version      1.4
 // @author       exyezed
 // @namespace    https://github.com/exyezed/cobalt-tools/
 // @supportURL   https://github.com/exyezed/cobalt-tools/issues
@@ -153,7 +153,7 @@
                     </div>
                 </div>
                 <div class="codec-selector">
-                    <button class="codec-button selected" data-codec="h264">H.264</button>
+                    <button class="codec-button" data-codec="h264">H.264</button>
                     <button class="codec-button" data-codec="vp9">VP9</button>
                     <button class="codec-button" data-codec="av1">AV1</button>
                 </div>
@@ -182,7 +182,13 @@
             closeDialog(dialog, backdrop);
         });
 
-        return { dialog, backdrop };
+        const savedCodec = localStorage.getItem('cobaltToolsCodec') || 'h264';
+        const savedQuality = localStorage.getItem('cobaltToolsQuality') || '1080p';
+
+        dialog.querySelectorAll('.codec-button').forEach(btn => btn.classList.remove('selected'));
+        dialog.querySelector(`.codec-button[data-codec="${savedCodec}"]`).classList.add('selected');
+
+        return { dialog, backdrop, savedCodec, savedQuality };
     }
 
     function closeDialog(dialog, backdrop) {
@@ -265,7 +271,7 @@
         });
     }
 
-    function updateQualityOptions(dialog, codec) {
+    function updateQualityOptions(dialog, codec, savedQuality) {
         const qualityOptions = dialog.querySelector('#quality-options');
         qualityOptions.innerHTML = '';
 
@@ -293,10 +299,12 @@
                     rb.checked = false;
                 });
                 radioButton.checked = true;
+                
+                localStorage.setItem('cobaltToolsQuality', quality);
             });
         });
 
-        const defaultQuality = qualities.includes('1080p') ? '1080p' : qualities[qualities.length - 1];
+        const defaultQuality = qualities.includes(savedQuality) ? savedQuality : qualities[qualities.length - 1];
         const defaultRadio = dialog.querySelector(`input[name="quality"][value="${defaultQuality}"]`);
         if (defaultRadio) {
             defaultRadio.checked = true;
@@ -304,9 +312,9 @@
     }
 
     function modifyQualityOptionsAndRemoveElements() {
-        const { dialog, backdrop } = createDownloadDialog();
+        const { dialog, backdrop, savedCodec, savedQuality } = createDownloadDialog();
         let currentVideoId = null;
-        let selectedCodec = 'h264';
+        let selectedCodec = savedCodec;
 
         try {
             const url = window.location.href;
@@ -325,11 +333,13 @@
                 codecButtons.forEach(btn => btn.classList.remove('selected'));
                 button.classList.add('selected');
                 selectedCodec = button.dataset.codec;
-                updateQualityOptions(dialog, selectedCodec);
+                updateQualityOptions(dialog, selectedCodec, savedQuality);
+                
+                localStorage.setItem('cobaltToolsCodec', selectedCodec);
             });
         });
 
-        updateQualityOptions(dialog, selectedCodec);
+        updateQualityOptions(dialog, selectedCodec, savedQuality);
 
         const cancelButton = dialog.querySelector('#cancel-button');
         const downloadButton = dialog.querySelector('#download-button');
@@ -363,9 +373,7 @@
             downloadButton.addEventListener('mouseout', () => {
                 downloadButton.style.background = 'transparent';
                 downloadButton.style.borderColor = '#e1e1e1';
-                downloadButton.style.color =
-
- '#e1e1e1';
+                downloadButton.style.color = '#e1e1e1';
             });
         }
 
@@ -435,5 +443,5 @@
     }
 
     interceptDownloadButton();
-    console.log('Cobalt Tools userscript v1.8 is running');
+    console.log('Cobalt Tools (Direct YouTube Video Downloader) is running');
 })();
