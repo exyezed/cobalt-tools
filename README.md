@@ -4,8 +4,6 @@
 > To use this script, you must have Tampermonkey installed.
 
 > [!WARNING]
-> This script currently uses API v7, which may be discontinued in a few days.
-
 > If you see an error or the feature doesn't appear, try refreshing the page a few times. I'm using a public API that may require updates in the future with a free server that is not as responsive as premium services, and my knowledge of JavaScript is still very limited and needs further improvement. If you encounter any issues and can fix them, please feel free to make Pull Requests.
 
 #### [Greasy Fork](https://greasyfork.org/en/users/1382928-exyezed)
@@ -26,7 +24,17 @@ Bypass the download button and display options to download the video directly fr
 
 ![chrome_2DTuRb7NLv](https://github.com/user-attachments/assets/ffd6f64c-3ca2-440b-8b00-41cfe8266e40)
 
-## 3. Cobalt Tools (SoundCloud Direct Downloader)
+## 3. Cobalt Tools (YouTube Download Manager)
+
+Bypass the download button and display options to download the video or audio directly from the YouTube page.
+
+#### [Install Script](https://update.greasyfork.org/scripts/515230/Cobalt%20Tools%20%28YouTube%20Download%20Manager%29.user.js)
+
+![image](https://github.com/user-attachments/assets/0324160b-73d2-40e0-8d91-e881f9549ccc)
+
+![image](https://github.com/user-attachments/assets/f7477ce1-d2df-4b6e-86f0-bf5e5bcfefb5)
+
+## 4. Cobalt Tools (SoundCloud Direct Downloader)
 
 Integrate a download button for SoundCloud tracks and open original cover art.
 
