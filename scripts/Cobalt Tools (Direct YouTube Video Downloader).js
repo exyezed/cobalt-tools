@@ -2,7 +2,7 @@
 // @name         Cobalt Tools (Direct YouTube Video Downloader)
 // @description  Bypass the download button and display options to download the video directly from the YouTube page.
 // @icon         https://raw.githubusercontent.com/exyezed/cobalt-tools/refs/heads/main/extras/cobalt-tools.png
-// @version      1.4
+// @version      1.5
 // @author       exyezed
 // @namespace    https://github.com/exyezed/cobalt-tools/
 // @supportURL   https://github.com/exyezed/cobalt-tools/issues
@@ -17,11 +17,10 @@
 (function() {
     'use strict';
 
-    function triggerDirectDownload(url, filename) {
+    function triggerDirectDownload(url) {
         const a = document.createElement('a');
         a.style.display = 'none';
         a.href = url;
-        a.download = filename || 'video.mp4';
         document.body.appendChild(a);
         a.click();
         setTimeout(() => {
@@ -202,11 +201,6 @@
         return searchParams.get('v');
     }
 
-    function getVideoTitle() {
-        const titleElement = document.querySelector('h1.ytd-video-primary-info-renderer');
-        return titleElement ? titleElement.textContent.trim() : 'youtube-video';
-    }
-
     function downloadVideo(quality, videoId, codec, dialog, backdrop) {
         const statusElement = dialog.querySelector('#download-status');
         statusElement.style.display = 'block';
@@ -246,11 +240,8 @@
 
                     const data = JSON.parse(response.responseText);
                     if (data.url) {
-                        const videoTitle = getVideoTitle();
-                        const filename = `${videoTitle} (${quality}-${codec}).mp4`;
-
                         statusElement.textContent = 'Starting download...';
-                        triggerDirectDownload(data.url, filename);
+                        triggerDirectDownload(data.url);
 
                         setTimeout(() => {
                             closeDialog(dialog, backdrop);
@@ -382,6 +373,7 @@
 
     function enableDownloadButton(button) {
         button.classList.remove('yt-spec-button-shape-next--disabled');
+        
         button.classList.add('yt-spec-button-shape-next--mono');
 
         button.removeAttribute('disabled');
