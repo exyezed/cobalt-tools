@@ -2,7 +2,7 @@
 // @name         Cobalt Tools (Direct YouTube Video Downloader)
 // @description  Bypass the download button and display options to download the video directly from the YouTube page.
 // @icon         https://raw.githubusercontent.com/exyezed/cobalt-tools/refs/heads/main/extras/cobalt-tools.png
-// @version      1.1
+// @version      1.2
 // @author       exyezed
 // @namespace    https://github.com/exyezed/cobalt-tools/
 // @supportURL   https://github.com/exyezed/cobalt-tools/issues
@@ -177,7 +177,7 @@
         statusElement.textContent = 'Preparing download...';
  
         const baseUrl = 'https://exyezed.vercel.app/api/cobalt/video';
-        const endpoint = quality === '8k+' ? `${baseUrl}/max/${videoId}` : `${baseUrl}/${quality.replace('p', '')}/${videoId}`;
+        const endpoint = `${baseUrl}/${quality.replace('p', '')}/${videoId}`;
  
         GM.xmlHttpRequest({
             method: 'GET',
@@ -227,8 +227,7 @@
         if (qualityOptions) {
             const newQualities = [
                 '144p', '240p', '360p',
-                '480p', '720p', '1080p',
-                '1440p', '4k', '8k+'
+                '480p', '720p', '1080p'
             ];
  
             newQualities.forEach((quality, index) => {
