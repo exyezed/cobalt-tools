@@ -4,6 +4,8 @@
 > To use this script, you must have Tampermonkey installed.
 
 > [!WARNING]
+> This script currently uses API v7, which may be discontinued in a few days.
+
 > If you see an error or the feature doesn't appear, try refreshing the page a few times. I'm using a public API that may require updates in the future with a free server that is not as responsive as premium services, and my knowledge of JavaScript is still very limited and needs further improvement. If you encounter any issues and can fix them, please feel free to make Pull Requests.
 
 #### [Greasy Fork](https://greasyfork.org/en/users/1382928-exyezed)
