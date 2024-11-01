@@ -22,7 +22,7 @@ Bypass the download button and display options to download the video directly fr
 
 #### [Install Script](https://update.greasyfork.org/scripts/515024/Cobalt%20Tools%20%28Direct%20YouTube%20Video%20Downloader%29.user.js)
 
-![chrome_cYA8QGTZp2](https://github.com/user-attachments/assets/f59ea9fd-fb8d-4c41-9e99-847810304b78)
+![image](https://github.com/user-attachments/assets/d7ce943e-e733-42c2-8892-f7ddf307bd85)
 
 ## 3. Cobalt Tools (SoundCloud Direct Downloader)
 
