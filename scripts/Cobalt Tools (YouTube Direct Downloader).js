@@ -184,7 +184,7 @@
                         <a href="https://instances.cobalt.best/" target="_blank" rel="noopener noreferrer" class="title-link">
                             <div class="title">cobalt.tools</div>
                         </a>
-                        <div class="subtitle">youtube download manager</div>
+                        <div class="subtitle">youtube direct downloader</div>
                     </div>
                 </div>
                 <div class="switch-container">
