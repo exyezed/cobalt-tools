@@ -628,5 +628,5 @@
     }
 
     interceptDownloadButton();
-    console.log('Cobalt Tools (YouTube Download Manager) is running');
+    console.log('Cobalt Tools (YouTube Direct Downloader) is running');
 })();
