@@ -24,11 +24,11 @@ Bypass the download button and display options to download the video directly fr
 
 ![chrome_2DTuRb7NLv](https://github.com/user-attachments/assets/ffd6f64c-3ca2-440b-8b00-41cfe8266e40)
 
-## 3. Cobalt Tools (YouTube Download Manager)
+## 3. Cobalt Tools (YouTube Direct Downloader)
 
 Bypass the download button and display options to download the video or audio directly from the YouTube page.
 
-#### [Install Script](https://update.greasyfork.org/scripts/515230/Cobalt%20Tools%20%28YouTube%20Download%20Manager%29.user.js)
+#### [Install Script](https://update.greasyfork.org/scripts/515230/Cobalt%20Tools%20%28YouTube%20Direct%20Downloader%29.user.js)
 
 ![image](https://github.com/user-attachments/assets/0324160b-73d2-40e0-8d91-e881f9549ccc)
 
