@@ -18,11 +18,17 @@ Integrate a high-quality 320kbps audio download button before the video title.
 
 ## 2. Cobalt Tools (Direct YouTube Video Downloader)
 
-Bypass the download button and display options to download the video directly from the YouTube page.
+Bypass the download button and provide options to download the video and audio dubs directly from the YouTube page.
 
 #### [Install Script](https://update.greasyfork.org/scripts/515024/Cobalt%20Tools%20%28Direct%20YouTube%20Video%20Downloader%29.user.js)
 
-![image](https://github.com/user-attachments/assets/bc110c83-b242-4a37-a917-853e334c220a)
+![image](https://github.com/user-attachments/assets/f5c7799c-d607-41db-a5c6-5d8bbebda7aa)
+
+> Allows downloading videos with dubs if available.
+
+![image](https://github.com/user-attachments/assets/34a77855-b993-4a12-9cbb-2f4b689091e5)
+
+![image](https://github.com/user-attachments/assets/9fc717ee-2872-42d6-be2d-c46b2ed3b7f6)
 
 ## 3. Cobalt Tools (YouTube Direct Downloader)
 
