@@ -2,7 +2,7 @@
 // @name         Cobalt Tools (YouTube Direct Downloader)
 // @description  Bypass the download button and display options to download the video or audio directly from the YouTube page.
 // @icon         https://raw.githubusercontent.com/exyezed/cobalt-tools/refs/heads/main/extras/cobalt-tools.png
-// @version      1.0
+// @version      1.1
 // @author       exyezed
 // @namespace    https://github.com/exyezed/cobalt-tools/
 // @supportURL   https://github.com/exyezed/cobalt-tools/issues
@@ -45,177 +45,299 @@
             width: 400px;
             z-index: 9999;
         `;
-        dialog.innerHTML = `
-            <style>
-                @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap');
 
-                .quality-grid {
-                    display: grid;
-                    grid-template-columns: repeat(3, 1fr);
-                    gap: 8px;
-                    margin-bottom: 16px;
-                }
+        const dialogContent = document.createElement('div');
+        dialogContent.style.padding = '16px';
 
-                .quality-option {
-                    display: flex;
-                    align-items: center;
-                    padding: 8px;
-                    cursor: pointer;
-                }
+        const styleElement = document.createElement('style');
+        styleElement.textContent = `
+            @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap');
 
-                .quality-option:hover {
-                    background: #191919;
-                    border-radius: 6px;
-                }
+            .quality-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 8px;
+                margin-bottom: 16px;
+            }
 
-                .logo-container {
-                    display: flex;
-                    align-items: center;
-                    gap: 8px;
-                    margin-bottom: 16px;
-                }
+            .quality-option {
+                display: flex;
+                align-items: center;
+                padding: 8px;
+                cursor: pointer;
+            }
 
-                .subtitle {
-                    color: #e1e1e1;
-                    opacity: 0.7;
-                    font-size: 12px;
-                    margin-top: 4px;
-                }
+            .quality-option:hover {
+                background: #191919;
+                border-radius: 6px;
+            }
 
-                .title {
-                    font-size: 18px;
-                    font-weight: 700;
-                }
+            .logo-container {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                margin-bottom: 16px;
+            }
 
-                .title-link {
-                    text-decoration: none;
-                    color: inherit;
-                    cursor: pointer;
-                    transition: opacity 0.2s ease;
-                }
+            .subtitle {
+                color: #e1e1e1;
+                opacity: 0.7;
+                font-size: 12px;
+                margin-top: 4px;
+            }
 
-                .title-link:hover {
-                    opacity: 0.8;
-                }
+            .title {
+                font-size: 18px;
+                font-weight: 700;
+            }
 
-                .codec-selector {
-                    margin-bottom: 16px;
-                    display: flex;
-                    gap: 8px;
-                    justify-content: center;
-                }
+            .title-link {
+                text-decoration: none;
+                color: inherit;
+                cursor: pointer;
+                transition: opacity 0.2s ease;
+            }
 
-                .codec-button {
-                    background: transparent;
-                    border: 1px solid #e1e1e1;
-                    color: #e1e1e1;
-                    padding: 6px 12px;
-                    border-radius: 14px;
-                    cursor: pointer;
-                    font-family: inherit;
-                    font-size: 12px;
-                    transition: all 0.2s ease;
-                }
+            .title-link:hover {
+                opacity: 0.8;
+            }
 
-                .codec-button:hover {
-                    background: #808080;
-                    color: #000000;
-                }
+            .codec-selector {
+                margin-bottom: 16px;
+                display: flex;
+                gap: 8px;
+                justify-content: center;
+            }
 
-                .codec-button.selected {
-                    background: #1ed760;
-                    border-color: #1ed760;
-                    color: #000000;
-                }
+            .codec-button {
+                background: transparent;
+                border: 1px solid #e1e1e1;
+                color: #e1e1e1;
+                padding: 6px 12px;
+                border-radius: 14px;
+                cursor: pointer;
+                font-family: inherit;
+                font-size: 12px;
+                transition: all 0.2s ease;
+            }
 
-                .download-status {
-                    text-align: center;
-                    margin: 16px 0;
-                    font-size: 12px;
-                    display: none;
-                }
+            .codec-button:hover {
+                background: #808080;
+                color: #000000;
+            }
 
-                .button-container {
-                    display: flex;
-                    justify-content: center;
-                    gap: 8px;
-                }
+            .codec-button.selected {
+                background: #1ed760;
+                border-color: #1ed760;
+                color: #000000;
+            }
 
-                .switch-container {
-                    position: absolute;
-                    top: 16px;
-                    right: 16px;
-                    display: flex;
-                    align-items: center;
-                }
-                .switch-button {
-                    background: transparent;
-                    border: none;
-                    cursor: pointer;
-                    padding: 4px;
-                    transition: all 0.2s ease;
-                }
-                .switch-button svg {
-                    width: 20px;
-                    height: 20px;
-                    fill: #e1e1e1;
-                    transition: all 0.2s ease;
-                }
-                .switch-button:hover svg {
-                    fill: #1ed760;
-                }
-                .audio-options {
-                    display: none;
-                    margin-bottom: 16px;
-                }
-                .audio-options.active {
-                    display: block;
-                }
-            </style>
-            <div style="padding: 16px;">
-                <div class="logo-container">
-                    <div id="cobalt-logo">
-                        <svg width="24" height="16" viewBox="0 0 24 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M0 15.6363L0 12.8594L9.47552 8.293L0 3.14038L0 0.363525L12.8575 7.4908V9.21862L0 15.6363Z" fill="white"></path>
-                            <path d="M11.1425 15.6363V12.8594L20.6181 8.293L11.1425 3.14038V0.363525L24 7.4908V9.21862L11.1425 15.6363Z" fill="white"></path>
-                        </svg>
-                    </div>
-                    <div>
-                        <a href="https://instances.cobalt.best/" target="_blank" rel="noopener noreferrer" class="title-link">
-                            <div class="title">cobalt.tools</div>
-                        </a>
-                        <div class="subtitle">youtube direct downloader</div>
-                    </div>
-                </div>
-                <div class="switch-container">
-                    <button class="switch-button" id="mode-switch">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M64 0C28.7 0 0 28.7 0 64L0 448c0 35.3 28.7 64 64 64l256 0c35.3 0 64-28.7 64-64l0-288-128 0c-17.7 0-32-14.3-32-32L224 0 64 0zM256 0l0 128 128 0L256 0zM64 288c0-17.7 14.3-32 32-32l96 0c17.7 0 32 14.3 32 32l0 96c0 17.7-14.3 32-32 32l-96 0c-17.7 0-32-14.3-32-32l0-96zM300.9 397.9L256 368l0-64 44.9-29.9c2-1.3 4.4-2.1 6.8-2.1c6.8 0 12.3 5.5 12.3 12.3l0 103.4c0 6.8-5.5 12.3-12.3 12.3c-2.4 0-4.8-.7-6.8-2.1z"/></svg>
-                    </button>
-                </div>
-                <div id="video-options">
-                    <div class="codec-selector">
-                        <button class="codec-button" data-codec="h264">H.264</button>
-                        <button class="codec-button" data-codec="vp9">VP9</button>
-                        <button class="codec-button" data-codec="av1">AV1</button>
-                    </div>
-                    <div id="quality-options" class="quality-grid"></div>
-                </div>
-                <div id="audio-options" class="audio-options">
-                    <div class="codec-selector">
-                        <button class="codec-button" data-codec="mp3">MP3</button>
-                        <button class="codec-button" data-codec="ogg">OGG</button>
-                        <button class="codec-button" data-codec="opus">OPUS</button>
-                        <button class="codec-button" data-codec="wav">WAV</button>
-                    </div>
-                    <div id="bitrate-options" class="quality-grid"></div>
-                </div>
-                <div class="download-status" id="download-status"></div>
-                <div class="button-container">
-                    <button id="cancel-button" style="background: transparent; border: 1px solid #e1e1e1; color: #e1e1e1; font-size: 14px; font-weight: 500; padding: 8px 16px; cursor: pointer; font-family: inherit; border-radius: 18px;">Cancel</button>
-                    <button id="download-button" style="background: transparent; border: 1px solid #e1e1e1; color: #e1e1e1; font-size: 14px; font-weight: 500; padding: 8px 16px; border-radius: 18px; cursor: pointer; font-family: inherit;">Download</button>
-                </div>
-            </div>
+            .download-status {
+                text-align: center;
+                margin: 16px 0;
+                font-size: 12px;
+                display: none;
+            }
+
+            .button-container {
+                display: flex;
+                justify-content: center;
+                gap: 8px;
+            }
+
+            .switch-container {
+                position: absolute;
+                top: 16px;
+                right: 16px;
+                display: flex;
+                align-items: center;
+            }
+            .switch-button {
+                background: transparent;
+                border: none;
+                cursor: pointer;
+                padding: 4px;
+                transition: all 0.2s ease;
+            }
+            .switch-button svg {
+                width: 20px;
+                height: 20px;
+                fill: #e1e1e1;
+                transition: all 0.2s ease;
+            }
+            .switch-button:hover svg {
+                fill: #1ed760;
+            }
+            .audio-options {
+                display: none;
+                margin-bottom: 16px;
+            }
+            .audio-options.active {
+                display: block;
+            }
         `;
+        dialog.appendChild(styleElement);
+
+        const logoContainer = document.createElement('div');
+        logoContainer.className = 'logo-container';
+
+        const logoSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        logoSvg.setAttribute('width', '24');
+        logoSvg.setAttribute('height', '16');
+        logoSvg.setAttribute('viewBox', '0 0 24 16');
+        logoSvg.setAttribute('fill', 'none');
+
+        const path1 = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        path1.setAttribute('d', 'M0 15.6363L0 12.8594L9.47552 8.293L0 3.14038L0 0.363525L12.8575 7.4908V9.21862L0 15.6363Z');
+        path1.setAttribute('fill', 'white');
+
+        const path2 = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        path2.setAttribute('d', 'M11.1425 15.6363V12.8594L20.6181 8.293L11.1425 3.14038V0.363525L24 7.4908V9.21862L11.1425 15.6363Z');
+        path2.setAttribute('fill', 'white');
+
+        logoSvg.appendChild(path1);
+        logoSvg.appendChild(path2);
+
+        const logoDiv = document.createElement('div');
+        logoDiv.id = 'cobalt-logo';
+        logoDiv.appendChild(logoSvg);
+
+        logoContainer.appendChild(logoDiv);
+
+        const titleContainer = document.createElement('div');
+        const titleLink = document.createElement('a');
+        titleLink.href = 'https://instances.cobalt.best/';
+        titleLink.target = '_blank';
+        titleLink.rel = 'noopener noreferrer';
+        titleLink.className = 'title-link';
+
+        const title = document.createElement('div');
+        title.className = 'title';
+        title.textContent = 'cobalt.tools';
+
+        titleLink.appendChild(title);
+        titleContainer.appendChild(titleLink);
+
+        const subtitle = document.createElement('div');
+        subtitle.className = 'subtitle';
+        subtitle.textContent = 'youtube direct downloader';
+
+        titleContainer.appendChild(subtitle);
+        logoContainer.appendChild(titleContainer);
+
+        dialogContent.appendChild(logoContainer);
+
+        const switchContainer = document.createElement('div');
+        switchContainer.className = 'switch-container';
+
+        const switchButton = document.createElement('button');
+        switchButton.className = 'switch-button';
+        switchButton.id = 'mode-switch';
+
+        const switchSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        switchSvg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+        switchSvg.setAttribute('viewBox', '0 0 384 512');
+
+        const switchPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        switchPath.setAttribute('d', 'M64 0C28.7 0 0 28.7 0 64L0 448c0 35.3 28.7 64 64 64l256 0c35.3 0 64-28.7 64-64l0-288-128 0c-17.7 0-32-14.3-32-32L224 0 64 0zM256 0l0 128 128 0L256 0zM64 288c0-17.7 14.3-32 32-32l96 0c17.7 0 32 14.3 32 32l0 96c0 17.7-14.3 32-32 32l-96 0c-17.7 0-32-14.3-32-32l0-96zM300.9 397.9L256 368l0-64 44.9-29.9c2-1.3 4.4-2.1 6.8-2.1c6.8 0 12.3 5.5 12.3 12.3l0 103.4c0 6.8-5.5 12.3-12.3 12.3c-2.4 0-4.8-.7-6.8-2.1z');
+
+        switchSvg.appendChild(switchPath);
+        switchButton.appendChild(switchSvg);
+        switchContainer.appendChild(switchButton);
+
+        dialogContent.appendChild(switchContainer);
+
+        const videoOptions = document.createElement('div');
+        videoOptions.id = 'video-options';
+
+        const videoCodecSelector = document.createElement('div');
+        videoCodecSelector.className = 'codec-selector';
+
+        ['h264', 'vp9', 'av1'].forEach(codec => {
+            const button = document.createElement('button');
+            button.className = 'codec-button';
+            button.dataset.codec = codec;
+            button.textContent = codec.toUpperCase();
+            videoCodecSelector.appendChild(button);
+        });
+
+        videoOptions.appendChild(videoCodecSelector);
+
+        const qualityOptions = document.createElement('div');
+        qualityOptions.id = 'quality-options';
+        qualityOptions.className = 'quality-grid';
+        videoOptions.appendChild(qualityOptions);
+
+        dialogContent.appendChild(videoOptions);
+
+        const audioOptions = document.createElement('div');
+        audioOptions.id = 'audio-options';
+        audioOptions.className = 'audio-options';
+
+        const audioCodecSelector = document.createElement('div');
+        audioCodecSelector.className = 'codec-selector';
+
+        ['mp3', 'ogg', 'opus', 'wav'].forEach(codec => {
+            const button = document.createElement('button');
+            button.className = 'codec-button';
+            button.dataset.codec = codec;
+            button.textContent = codec.toUpperCase();
+            audioCodecSelector.appendChild(button);
+        });
+
+        audioOptions.appendChild(audioCodecSelector);
+
+        const bitrateOptions = document.createElement('div');
+        bitrateOptions.id = 'bitrate-options';
+        bitrateOptions.className = 'quality-grid';
+        audioOptions.appendChild(bitrateOptions);
+
+        dialogContent.appendChild(audioOptions);
+
+        const downloadStatus = document.createElement('div');
+        downloadStatus.className = 'download-status';
+        downloadStatus.id = 'download-status';
+        dialogContent.appendChild(downloadStatus);
+
+        const buttonContainer = document.createElement('div');
+        buttonContainer.className = 'button-container';
+
+        const cancelButton = document.createElement('button');
+        cancelButton.id = 'cancel-button';
+        cancelButton.textContent = 'Cancel';
+        cancelButton.style.cssText = `
+            background: transparent;
+            border: 1px solid #e1e1e1;
+            color: #e1e1e1;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-family: inherit;
+            border-radius: 18px;
+        `;
+
+        const downloadButton = document.createElement('button');
+        downloadButton.id = 'download-button';
+        downloadButton.textContent = 'Download';
+        downloadButton.style.cssText = `
+            background: transparent;
+            border: 1px solid #e1e1e1;
+            color: #e1e1e1;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 18px;
+            cursor: pointer;
+            font-family: inherit;
+        `;
+
+        buttonContainer.appendChild(cancelButton);
+        buttonContainer.appendChild(downloadButton);
+
+        dialogContent.appendChild(buttonContainer);
+
+        dialog.appendChild(dialogContent);
 
         const backdrop = document.createElement('div');
         backdrop.style.cssText = `
@@ -266,6 +388,7 @@
             '360p': '360',
             '480p': '480',
             '720p': '720',
+
             '1080p': '1080',
             '1440p': '1440',
             '4k': '2160',
@@ -315,7 +438,9 @@
 
     function updateQualityOptions(dialog, codec, savedQuality) {
         const qualityOptions = dialog.querySelector('#quality-options');
-        qualityOptions.innerHTML = '';
+        while (qualityOptions.firstChild) {
+            qualityOptions.removeChild(qualityOptions.firstChild);
+        }
 
         let qualities;
         if (codec === 'h264') {
@@ -329,11 +454,22 @@
         qualities.forEach((quality, index) => {
             const option = document.createElement('div');
             option.className = 'quality-option';
-            option.innerHTML = `
-                <input type="radio" id="quality-${index}" name="quality" value="${quality}" style="margin-right: 8px;">
-                <label for="quality-${index}" style="font-size: 14px; cursor: pointer;">${quality}</label>
-            
-            `;
+
+            const input = document.createElement('input');
+            input.type = 'radio';
+            input.id = `quality-${index}`;
+            input.name = 'quality';
+            input.value = quality;
+            input.style.marginRight = '8px';
+
+            const label = document.createElement('label');
+            label.htmlFor = `quality-${index}`;
+            label.style.fontSize = '14px';
+            label.style.cursor = 'pointer';
+            label.textContent = quality;
+
+            option.appendChild(input);
+            option.appendChild(label);
             qualityOptions.appendChild(option);
 
             option.addEventListener('click', function() {
@@ -356,7 +492,9 @@
 
     function updateAudioOptions(dialog, codec, savedBitrate) {
         const bitrateOptions = dialog.querySelector('#bitrate-options');
-        bitrateOptions.innerHTML = '';
+        while (bitrateOptions.firstChild) {
+            bitrateOptions.removeChild(bitrateOptions.firstChild);
+        }
 
         if (codec === 'wav') {
             return;
@@ -367,10 +505,22 @@
         bitrates.forEach((bitrate, index) => {
             const option = document.createElement('div');
             option.className = 'quality-option';
-            option.innerHTML = `
-                <input type="radio" id="bitrate-${index}" name="bitrate" value="${bitrate}" style="margin-right: 8px;">
-                <label for="bitrate-${index}" style="font-size: 14px; cursor: pointer;">${bitrate} kb/s</label>
-            `;
+
+            const input = document.createElement('input');
+            input.type = 'radio';
+            input.id = `bitrate-${index}`;
+            input.name = 'bitrate';
+            input.value = bitrate;
+            input.style.marginRight = '8px';
+
+            const label = document.createElement('label');
+            label.htmlFor = `bitrate-${index}`;
+            label.style.fontSize = '14px';
+            label.style.cursor = 'pointer';
+            label.textContent = `${bitrate} kb/s`;
+
+            option.appendChild(input);
+            option.appendChild(label);
             bitrateOptions.appendChild(option);
 
             option.addEventListener('click', function() {
@@ -437,6 +587,27 @@
         });
     }
 
+    function updateModeSwitch(modeSwitch, isAudioMode) {
+        while (modeSwitch.firstChild) {
+            modeSwitch.removeChild(modeSwitch.firstChild);
+        }
+
+        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+        svg.setAttribute('viewBox', '0 0 384 512');
+
+        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+
+        if (isAudioMode) {
+            path.setAttribute('d', 'M64 0C28.7 0 0 28.7 0 64L0 448c0 35.3 28.7 64 64 64l256 0c35.3 0 64-28.7 64-64l0-288-128 0c-17.7 0-32-14.3-32-32L224 0 64 0zM256 0l0 128 128 0L256 0zm32 224l0 32 0 128c0 17.7-21.5 32-48 32s-48-14.3-48-32s21.5-32 48-32c5.6 0 11 .6 16 1.8l0-74.7-96 36L160 416c0 17.7-21.5 32-48 32s-48-14.3-48-32s21.5-32 48-32c5.6 0 11 .6 16 1.8l0-81.8 0-32c0-6.7 4.1-12.6 10.4-15l128-48c4.9-1.8 10.4-1.2 14.7 1.8s6.9 7.9 6.9 13.2z');
+        } else {
+            path.setAttribute('d', 'M64 0C28.7 0 0 28.7 0 64L0 448c0 35.3 28.7 64 64 64l256 0c35.3 0 64-28.7 64-64l0-288-128 0c-17.7 0-32-14.3-32-32L224 0 64 0zM256 0l0 128 128 0L256 0zM64 288c0-17.7 14.3-32 32-32l96 0c17.7 0 32 14.3 32 32l0 96c0 17.7-14.3 32-32 32l-96 0c-17.7 0-32-14.3-32-32l0-96zM300.9 397.9L256 368l0-64 44.9-29.9c2-1.3 4.4-2.1 6.8-2.1c6.8 0 12.3 5.5 12.3 12.3l0 103.4c0 6.8-5.5 12.3-12.3 12.3c-2.4 0-4.8-.7-6.8-2.1z');
+        }
+
+        svg.appendChild(path);
+        modeSwitch.appendChild(svg);
+    }
+
     function modifyQualityOptionsAndRemoveElements() {
         const { dialog, backdrop, savedCodec, savedMode, savedAudioCodec } = createDownloadDialog();
         let currentVideoId = null;
@@ -456,23 +627,22 @@
         const videoOptions = dialog.querySelector('#video-options');
         const audioOptions = dialog.querySelector('#audio-options');
 
-        function updateModeSwitch() {
+        function updateModeSwitchAndOptions() {
+            updateModeSwitch(modeSwitch, isAudioMode);
             if (isAudioMode) {
-                modeSwitch.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M64 0C28.7 0 0 28.7 0 64L0 448c0 35.3 28.7 64 64 64l256 0c35.3 0 64-28.7 64-64l0-288-128 0c-17.7 0-32-14.3-32-32L224 0 64 0zM256 0l0 128 128 0L256 0zm32 224l0 32 0 128c0 17.7-21.5 32-48 32s-48-14.3-48-32s21.5-32 48-32c5.6 0 11 .6 16 1.8l0-74.7-96 36L160 416c0 17.7-21.5 32-48 32s-48-14.3-48-32s21.5-32 48-32c5.6 0 11 .6 16 1.8l0-81.8 0-32c0-6.7 4.1-12.6 10.4-15l128-48c4.9-1.8 10.4-1.2 14.7 1.8s6.9 7.9 6.9 13.2z"/></svg>';
                 audioOptions.style.display = 'block';
                 videoOptions.style.display = 'none';
             } else {
-                modeSwitch.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M64 0C28.7 0 0 28.7 0 64L0 448c0 35.3 28.7 64 64 64l256 0c35.3 0 64-28.7 64-64l0-288-128 0c-17.7 0-32-14.3-32-32L224 0 64 0zM256 0l0 128 128 0L256 0zM64 288c0-17.7 14.3-32 32-32l96 0c17.7 0 32 14.3 32 32l0 96c0 17.7-14.3 32-32 32l-96 0c-17.7 0-32-14.3-32-32l0-96zM300.9 397.9L256 368l0-64 44.9-29.9c2-1.3 4.4-2.1 6.8-2.1c6.8 0 12.3 5.5 12.3 12.3l0 103.4c0 6.8-5.5 12.3-12.3 12.3c-2.4 0-4.8-.7-6.8-2.1z"/></svg>';
                 videoOptions.style.display = 'block';
                 audioOptions.style.display = 'none';
             }
         }
 
-        updateModeSwitch();
+        updateModeSwitchAndOptions();
 
         modeSwitch.addEventListener('click', () => {
             isAudioMode = !isAudioMode;
-            updateModeSwitch();
+            updateModeSwitchAndOptions();
             localStorage.setItem('cobaltToolsMode', isAudioMode ? 'audio' : 'video');
             updateCodecButtons();
         });
@@ -594,7 +764,8 @@
                     const addedNodes = mutation.addedNodes;
                     for(let node of addedNodes) {
                         if(node.nodeType === Node.ELEMENT_NODE) {
-                            const disabledButtons = node.querySelectorAll('button[aria-label="Download"][disabled], button[aria-label="Download"][aria-disabled="true"]');
+                            const disabledButtons =
+                                node.querySelectorAll('button[aria-label="Download"][disabled], button[aria-label="Download"][aria-disabled="true"]');
                             disabledButtons.forEach(button => {
                                 enableDownloadButton(button);
                             });
@@ -629,4 +800,4 @@
 
     interceptDownloadButton();
     console.log('Cobalt Tools (YouTube Direct Downloader) is running');
-})();
+    })();
