@@ -53,3 +53,5 @@ Integrate a download button for SoundCloud tracks and open original cover art.
 ![image](https://github.com/user-attachments/assets/05e0f6fa-b5b6-400d-86f0-817b5696ef84)
 
 ![image](https://github.com/user-attachments/assets/6171a4fe-943b-4edd-b259-c947262df021)
+
+#### Thanks to [cobalt](https://github.com/imputnet/cobalt)
