@@ -14,7 +14,7 @@ Integrate a high-quality 320kbps audio download button before the video title.
 
 #### [Install Script](https://update.greasyfork.org/scripts/515023/Cobalt%20Tools%20%28Direct%20YouTube%20Audio%20Downloader%29.user.js)
 
-![image](https://github.com/user-attachments/assets/97e1db44-de12-4781-a0be-2730ac0baa9a)
+![image](https://github.com/user-attachments/assets/1ad2713c-11c4-44ba-95c0-20c174ef4906)
 
 ## 2. Cobalt Tools (Direct YouTube Video Downloader)
 
@@ -22,13 +22,13 @@ Bypass the download button and provide options to download the video or video du
 
 #### [Install Script](https://update.greasyfork.org/scripts/515024/Cobalt%20Tools%20%28Direct%20YouTube%20Video%20Downloader%29.user.js)
 
-![chrome_18OUHezJ6k](https://github.com/user-attachments/assets/14181ee3-e82d-48d8-8a8a-e0508b568727)
+![chrome_PU1EAOqXJ8](https://github.com/user-attachments/assets/036e4297-1787-4534-b887-44f36c6f7e98)
 
 > Allows downloading videos with dubs if available.
 
-![chrome_TYHQ1YY7bL](https://github.com/user-attachments/assets/096d621d-c6b0-45ae-b616-434e996772cb)
+![chrome_ac1F9pIWmp](https://github.com/user-attachments/assets/b32d7750-f830-4d33-8b99-c7ec72f087e0)
 
-![chrome_DGJbBvRQxF](https://github.com/user-attachments/assets/e1be93cf-cbbe-412e-bc9c-2015f8b78568)
+![otg3uHyn7l](https://github.com/user-attachments/assets/75cd366c-018a-4bf8-8001-f7076649b6b9)
 
 ## 3. Cobalt Tools (YouTube Direct Downloader)
 
@@ -36,17 +36,19 @@ Bypass the download button and provide options to download the video, video dubs
 
 #### [Install Script](https://update.greasyfork.org/scripts/515230/Cobalt%20Tools%20%28YouTube%20Direct%20Downloader%29.user.js)
 
-![chrome_1k5JHFgAwV](https://github.com/user-attachments/assets/2c85f272-f771-4eaa-af28-398218985a07)
+> Video configuration
 
-![NQlVrEWuBt](https://github.com/user-attachments/assets/c4aea677-38d2-4c26-b2bc-9a326185a25d)
+![chrome_F21KrEldbg](https://github.com/user-attachments/assets/7f138599-bfbb-4543-8220-87f33ec2430e)
+
+> Audio configuration
+
+![hVeNGjWHnJ](https://github.com/user-attachments/assets/e20fe4f6-7516-408c-8b1f-ad87e3d92590)
 
 > Allows downloading videos with dubs if available.
 
-![chrome_LiRfuIoIMx](https://github.com/user-attachments/assets/36840ae7-bcd1-4a18-a9b6-3a7d0abe4081)
+![chrome_ac1F9pIWmp](https://github.com/user-attachments/assets/1a3075c4-72ca-41c9-89ee-459894799114)
 
-![7hTotiN4g3](https://github.com/user-attachments/assets/ac7b38fa-443e-4a1f-9710-61acafd9a5dd)
-
-
+![s1YkzNzSuU](https://github.com/user-attachments/assets/0fc5985c-e4f5-49df-8d0e-366384f4553c)
 
 ## 4. Cobalt Tools (SoundCloud Direct Downloader)
 
