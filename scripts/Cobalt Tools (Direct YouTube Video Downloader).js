@@ -2,7 +2,7 @@
 // @name         Cobalt Tools (Direct YouTube Video Downloader)
 // @description  Bypass the download button and provide options to download the video and audio dubs directly from the YouTube page.
 // @icon         https://raw.githubusercontent.com/exyezed/cobalt-tools/refs/heads/main/extras/cobalt-tools.png
-// @version      1.6
+// @version      1.7
 // @author       exyezed
 // @namespace    https://github.com/exyezed/cobalt-tools/
 // @supportURL   https://github.com/exyezed/cobalt-tools/issues
@@ -311,11 +311,11 @@
             codecButtons.appendChild(button);
         });
         
-        const audioButton = document.createElement('button');
-        audioButton.className = 'audio-button';
-        audioButton.dataset.type = 'audio';
-        audioButton.textContent = 'AUDIO';
-        audioButton.style.cssText = `
+        const dubButton = document.createElement('button');
+        dubButton.className = 'dub-button';
+        dubButton.dataset.type = 'dub';
+        dubButton.textContent = 'DUB';
+        dubButton.style.cssText = `
             background: transparent;
             border: 1px solid #39a9db;
             color: #39a9db;
@@ -327,29 +327,29 @@
             transition: all 0.2s ease;
         `;
         
-        audioButton.addEventListener('mouseover', () => {
-            audioButton.style.background = '#39a9db';
-            audioButton.style.color = '#000000';
+        dubButton.addEventListener('mouseover', () => {
+            dubButton.style.background = '#39a9db';
+            dubButton.style.color = '#000000';
         });
         
-        audioButton.addEventListener('mouseout', () => {
-            if (!audioButton.classList.contains('selected')) {
-                audioButton.style.background = 'transparent';
-                audioButton.style.color = '#39a9db';
+        dubButton.addEventListener('mouseout', () => {
+            if (!dubButton.classList.contains('selected')) {
+                dubButton.style.background = 'transparent';
+                dubButton.style.color = '#39a9db';
             }
         });
         
-        codecSelector.appendChild(audioButton);
+        codecSelector.appendChild(dubButton);
         
-        const audioSelector = document.createElement('div');
-        audioSelector.className = 'audio-selector';
-        audioSelector.style.display = 'none';
-        audioSelector.style.margin = '16px 0';
-        container.appendChild(audioSelector);
+        const dubSelector = document.createElement('div');
+        dubSelector.className = 'dub-selector';
+        dubSelector.style.display = 'none';
+        dubSelector.style.margin = '16px 0';
+        container.appendChild(dubSelector);
         
-        const audioSelect = document.createElement('select');
-        audioSelect.className = 'audio-select';
-        audioSelect.style.cssText = `
+        const dubSelect = document.createElement('select');
+        dubSelect.className = 'dub-select';
+        dubSelect.style.cssText = `
             width: 100%;
             padding: 8px;
             background: #191919;
@@ -363,16 +363,16 @@
         const defaultOption = document.createElement('option');
         defaultOption.value = '';
         defaultOption.textContent = 'Original Audio';
-        audioSelect.appendChild(defaultOption);
+        dubSelect.appendChild(defaultOption);
         
         Object.entries(LANGUAGE_MAP).forEach(([code, name]) => {
             const option = document.createElement('option');
             option.value = code;
             option.textContent = `${name} (${code})`;
-            audioSelect.appendChild(option);
+            dubSelect.appendChild(option);
         });
         
-        audioSelector.appendChild(audioSelect);
+        dubSelector.appendChild(dubSelect);
         
         const qualityOptions = document.createElement('div');
         qualityOptions.id = 'quality-options';
@@ -438,18 +438,18 @@
         
         const savedCodec = localStorage.getItem('cobaltToolsCodec') || 'h264';
         const savedQuality = localStorage.getItem('cobaltToolsQuality') || '1080p';
-        const savedAudio = localStorage.getItem('cobaltToolsAudio') || '';
+        const savedDub = localStorage.getItem('cobaltToolsDub') || '';
         
         const savedCodecButton = dialog.querySelector(`.codec-button[data-codec="${savedCodec}"]`);
         if (savedCodecButton) {
             savedCodecButton.classList.add('selected');
         }
         
-        if (audioSelect) {
-            audioSelect.value = savedAudio;
+        if (dubSelect) {
+            dubSelect.value = savedDub;
         }
         
-        return { dialog, backdrop, savedCodec, savedQuality, savedAudio };
+        return { dialog, backdrop, savedCodec, savedQuality, savedDub };
     }
 
     function updateQualityOptions(dialog, codec, savedQuality) {
@@ -540,10 +540,10 @@
     }
     
     function modifyQualityOptionsAndRemoveElements() {
-        const { dialog, backdrop, savedCodec, savedAudio } = createDownloadDialog();
+        const { dialog, backdrop, savedCodec, savedDub } = createDownloadDialog();
         let currentVideoId = null;
         let selectedCodec = savedCodec;
-        let isAudioMode = false;
+        let isDubMode = false;
     
         try {
             const url = window.location.href;
@@ -557,8 +557,8 @@
         console.log('Initial quality from localStorage:', currentQuality);
     
         const codecButtons = dialog.querySelectorAll('.codec-button');
-        const audioButton = dialog.querySelector('.audio-button');
-        const audioSelector = dialog.querySelector('.audio-selector');
+        const dubButton = dialog.querySelector('.dub-button');
+        const dubSelector = dialog.querySelector('.dub-selector');
         const qualityOptions = dialog.querySelector('#quality-options');
         const downloadButton = dialog.querySelector('#download-button');
     
@@ -569,15 +569,17 @@
             button.addEventListener('click', () => {
                 const currentSelectedQuality = dialog.querySelector('input[name="quality"]:checked')?.value;
                 console.log('Quality before codec change:', currentSelectedQuality);
-    
-                isAudioMode = false;
+        
+                isDubMode = false;
                 codecButtons.forEach(btn => btn.classList.remove('selected'));
-                audioButton.classList.remove('selected');
+                dubButton.classList.remove('selected');
+                dubButton.style.background = 'transparent';
+                dubButton.style.color = '#39a9db';
                 button.classList.add('selected');
                 selectedCodec = button.dataset.codec;
                 
-                if (audioSelector) {
-                    audioSelector.style.display = 'none';
+                if (dubSelector) {
+                    dubSelector.style.display = 'none';
                 }
                 qualityOptions.style.display = 'grid';
                 
@@ -585,27 +587,35 @@
                 localStorage.setItem('cobaltToolsCodec', selectedCodec);
             });
         });
-    
-        audioButton.addEventListener('click', () => {
-            isAudioMode = true;
+        
+        dubButton.addEventListener('click', () => {
+            isDubMode = true;
             codecButtons.forEach(btn => btn.classList.remove('selected'));
-            audioButton.classList.add('selected');
-            audioButton.style.background = '#39a9db';
-            audioButton.style.color = '#000000';
+            dubButton.classList.add('selected');
+            dubButton.style.background = '#39a9db';
+            dubButton.style.color = '#000000';
             
-            if (audioSelector) {
-                audioSelector.style.display = 'block';
+            if (dubSelector) {
+                dubSelector.style.display = 'block';
             }
             qualityOptions.style.display = 'none';
+        });
+        
+        document.addEventListener('click', (event) => {
+            if (!event.target.closest('.codec-button') && !event.target.closest('.dub-button')) {
+                dubButton.style.background = 'transparent';
+                dubButton.style.color = '#39a9db';
+                dubButton.classList.remove('selected');
+            }
         });
     
         updateQualityOptions(dialog, selectedCodec, currentQuality);
     
-        const audioSelect = dialog.querySelector('.audio-select');
-        if (audioSelect) {
-            audioSelect.value = savedAudio;
-            audioSelect.addEventListener('change', () => {
-                localStorage.setItem('cobaltToolsAudio', audioSelect.value);
+        const dubSelect = dialog.querySelector('.dub-select');
+        if (dubSelect) {
+            dubSelect.value = savedDub;
+            dubSelect.addEventListener('change', () => {
+                localStorage.setItem('cobaltToolsDub', dubSelect.value);
             });
         }
     
@@ -626,8 +636,8 @@
     
         if (downloadButton) {
             downloadButton.addEventListener('click', () => {
-                if (isAudioMode) {
-                    downloadVideo('audio', currentVideoId, 'audio', dialog, backdrop);
+                if (isDubMode) {
+                    downloadVideo('dub', currentVideoId, 'dub', dialog, backdrop);
                 } else {
                     const selectedQuality = dialog.querySelector('input[name="quality"]:checked');
                     if (selectedQuality && currentVideoId) {
@@ -658,13 +668,13 @@
         const baseUrl = 'https://exyezed.vercel.app/api/cobalt/video';
         let endpoint;
     
-        const audioSelect = dialog.querySelector('.audio-select');
-        const selectedAudio = audioSelect ? audioSelect.value : '';
+        const dubSelect = dialog.querySelector('.dub-select');
+        const selectedDub = dubSelect ? dubSelect.value : '';
     
-        if (codec === 'audio') {
-            endpoint = `${baseUrl}/audio/${videoId}`;
-            if (selectedAudio) {
-                endpoint += `/${selectedAudio}`;
+        if (codec === 'dub') {
+            endpoint = `${baseUrl}/dub/${videoId}`;
+            if (selectedDub) {
+                endpoint += `/${selectedDub}`;
             }
         } else {
             const qualityMap = {
@@ -686,8 +696,8 @@
                 endpoint = `${baseUrl}/${codec}/${mappedQuality}/${videoId}`;
             }
     
-            if (selectedAudio) {
-                endpoint += `/${selectedAudio}`;
+            if (selectedDub) {
+                endpoint += `/${selectedDub}`;
             }
         }
     
