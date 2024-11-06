@@ -2,7 +2,7 @@
 // @name         Cobalt Tools (SoundCloud Direct Downloader)
 // @description  Integrate a download button for SoundCloud tracks and open original cover art.
 // @icon         https://raw.githubusercontent.com/exyezed/cobalt-tools/refs/heads/main/extras/cobalt-tools.png
-// @version      1.0
+// @version      1.1
 // @author       exyezed
 // @namespace    https://github.com/exyezed/cobalt-tools/
 // @supportURL   https://github.com/exyezed/cobalt-tools/issues
@@ -415,7 +415,9 @@
     }
 
     function showLoading(svgElement) {
-        svgElement.innerHTML = '';
+        while (svgElement.firstChild) {
+            svgElement.removeChild(svgElement.firstChild);
+        }
         svgElement.setAttribute("viewBox", "0 0 512 512");
         const originalColor = svgElement.style.fill;
         svgElement.style.fill = originalColor === "#ffffff" ? "#ffffff" : "#f50";
@@ -429,23 +431,27 @@
         primaryPath.setAttribute("d", "M224 32c0-17.7 14.3-32 32-32C397.4 0 512 114.6 512 256c0 46.6-12.5 90.4-34.3 128c-8.8 15.3-28.4 20.5-43.7 11.7s-20.5-28.4-11.7-43.7c16.3-28.2 25.7-61 25.7-96c0-106-86-192-192-192c-17.7 0-32-14.3-32-32z");
         svgElement.appendChild(primaryPath);
 
-        svgElement.style.animation = 'spin  1s linear infinite';
+        svgElement.style.animation = 'spin 1s linear infinite';
     }
 
     function showSuccess(svgElement) {
-        svgElement.innerHTML = '';
+        while (svgElement.firstChild) {
+            svgElement.removeChild(svgElement.firstChild);
+        }
         svgElement.style.animation = '';
         const originalColor = svgElement.style.fill;
         svgElement.style.fill = originalColor === "#ffffff" ? "#ffffff" : "#f50";
         svgElement.setAttribute("viewBox", "0 0 512 512");
         const successPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
-        successPath.setAttribute("d", "M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4  9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z");
+        successPath.setAttribute("d", "M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z");
         svgElement.appendChild(successPath);
         setTimeout(() => resetIcon(svgElement), 2000);
     }
 
     function showError(svgElement) {
-        svgElement.innerHTML = '';
+        while (svgElement.firstChild) {
+            svgElement.removeChild(svgElement.firstChild);
+        }
         svgElement.style.animation = '';
         const originalColor = svgElement.style.fill;
         svgElement.style.fill = originalColor === "#ffffff" ? "#ffffff" : "#333";
@@ -457,7 +463,9 @@
     }
 
     function resetIcon(svgElement) {
-        svgElement.innerHTML = '';
+        while (svgElement.firstChild) {
+            svgElement.removeChild(svgElement.firstChild);
+        }
         const originalColor = svgElement.getAttribute('data-original-color') || "#333";
         svgElement.style.fill = originalColor;
         svgElement.setAttribute("viewBox", "0 0 448 512");
@@ -562,4 +570,5 @@
         }
     }).observe(document, {subtree: true, childList: true});
 
+    console.log('Cobalt Tools (SoundCloud Direct Downloader) is running');
 })();
