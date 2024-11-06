@@ -2,7 +2,7 @@
 // @name         Cobalt Tools (Direct YouTube Audio Downloader)
 // @description  Integrate a high-quality 320kbps audio download button before the video title.
 // @icon         https://raw.githubusercontent.com/exyezed/cobalt-tools/refs/heads/main/extras/cobalt-tools.png
-// @version      1.0
+// @version      1.1
 // @author       exyezed
 // @namespace    https://github.com/exyezed/cobalt-tools/
 // @supportURL   https://github.com/exyezed/cobalt-tools/issues
@@ -148,6 +148,7 @@
                     setTimeout(() => {
                         successSvg.style.display = "none";
                         svgElement.style.display = "block";
+                        svgElement.style.fill = "white";
                     }, 2000);
                 } else {
                     showError();
@@ -164,6 +165,7 @@
             setTimeout(() => {
                 errorSvg.style.display = "none";
                 svgElement.style.display = "block";
+                svgElement.style.fill = "white";
             }, 2000);
         }
         
@@ -221,4 +223,5 @@
         childList: true,
         subtree: true
     });
+    console.log('Cobalt Tools (Direct YouTube Audio Downloader) is running');
 })();
