@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         Cobalt Tools (YouTube Direct Downloader)
-// @description  Bypass the download button and display options to download the video or audio directly from the YouTube page.
+// @description  Bypass the download button and display options to download the video, audio, or dub directly from the YouTube page.
 // @icon         https://raw.githubusercontent.com/exyezed/cobalt-tools/refs/heads/main/extras/cobalt-tools.png
-// @version      1.1
+// @version      1.2
 // @author       exyezed
 // @namespace    https://github.com/exyezed/cobalt-tools/
 // @supportURL   https://github.com/exyezed/cobalt-tools/issues
@@ -16,6 +16,85 @@
 
 (function() {
     'use strict';
+
+    const LANGUAGE_MAP = {
+        "af": "Afrikaans",
+        "am": "አማርኛ",
+        "ar": "العربية",
+        "as": "Assamese",
+        "az": "azərbaycan",
+        "be": "Belarusian",
+        "bg": "български",
+        "bn": "বাংলা",
+        "bs": "bosanski",
+        "ca": "català",
+        "cs": "čeština",
+        "da": "dansk",
+        "de": "Deutsch",
+        "el": "Ελληνικά",
+        "en": "English",
+        "es": "español",
+        "et": "eesti",
+        "eu": "Basque",
+        "fa": "فارسی",
+        "fi": "suomi",
+        "fil": "Filipino",
+        "fr": "français",
+        "gl": "Galician",
+        "gu": "ગુજરાતી",
+        "hi": "हिन्दी",
+        "hr": "hrvatski",
+        "hu": "magyar",
+        "hy": "Armenian",
+        "id": "Indonesia",
+        "is": "Icelandic",
+        "it": "italiano",
+        "iw": "עברית",
+        "ja": "日本語",
+        "ka": "Georgian",
+        "kk": "Kazakh",
+        "km": "Khmer",
+        "kn": "ಕನ್ನಡ",
+        "ko": "한국어",
+        "ky": "Kyrgyz",
+        "lo": "Lao",
+        "lt": "lietuvių",
+        "lv": "latviešu",
+        "mk": "Macedonian",
+        "ml": "മലയാളം",
+        "mn": "Mongolian",
+        "mr": "मराठी",
+        "ms": "Melayu",
+        "my": "Burmese",
+        "ne": "Nepali",
+        "nl": "Nederlands",
+        "no": "norsk",
+        "or": "Odia",
+        "pa": "ਪੰਜਾਬੀ",
+        "pl": "polski",
+        "pt": "português",
+        "ro": "română",
+        "ru": "русский",
+        "si": "Sinhala",
+        "sk": "slovenčina",
+        "sl": "slovenščina",
+        "sq": "Albanian",
+        "sr": "српски",
+        "sv": "svenska",
+        "sw": "Kiswahili",
+        "ta": "தமிழ்",
+        "te": "తెలుగు",
+        "th": "ไทย",
+        "tr": "Türkçe",
+        "uk": "українська",
+        "ur": "اردو",
+        "uz": "o'zbek",
+        "vi": "Tiếng Việt",
+        "zh-CN": "中文（中国）",
+        "zh-HK": "中文（香港）",
+        "zh-TW": "中文（台灣）",
+        "zu": "Zulu"
+    };
 
     function triggerDirectDownload(url) {
         const a = document.createElement('a');
@@ -175,6 +254,30 @@
             .audio-options.active {
                 display: block;
             }
+            .dub-selector {
+                margin-top: 16px;
+                margin-bottom: 16px;
+                display: none;
+            }
+            .dub-select {
+                width: 80%;
+                margin: 0 auto;
+                display: block;
+            }
+            .dub-button {
+                background: transparent;
+                border: 1px solid #39a9db;
+                color: #39a9db;
+            }
+            .dub-button:hover {
+                background: #39a9db;
+                color: #000000;
+            }
+            .dub-button.selected {
+                background: #39a9db;
+                border-color: #39a9db;
+                color: #000000;
+            }
         `;
         dialog.appendChild(styleElement);
 
@@ -261,12 +364,49 @@
             videoCodecSelector.appendChild(button);
         });
 
+        const dubButton = document.createElement('button');
+        dubButton.className = 'codec-button dub-button';
+        dubButton.dataset.codec = 'dub';
+        dubButton.textContent = 'DUB';
+        videoCodecSelector.appendChild(dubButton);
+
         videoOptions.appendChild(videoCodecSelector);
 
         const qualityOptions = document.createElement('div');
         qualityOptions.id = 'quality-options';
         qualityOptions.className = 'quality-grid';
         videoOptions.appendChild(qualityOptions);
+
+        const dubSelector = document.createElement('div');
+        dubSelector.className = 'dub-selector';
+        dubSelector.style.display = 'none';
+
+        const dubSelect = document.createElement('select');
+        dubSelect.className = 'dub-select';
+        dubSelect.style.cssText = `
+            padding: 8px;
+            background: #191919;
+            color: #e1e1e1;
+            border: 1px solid #e1e1e1;
+            border-radius: 6px;
+            font-family: inherit;
+            cursor: pointer;
+        `;
+
+        const defaultOption = document.createElement('option');
+        defaultOption.value = '';
+        defaultOption.textContent = 'Original Audio';
+        dubSelect.appendChild(defaultOption);
+
+        Object.entries(LANGUAGE_MAP).forEach(([code, name]) => {
+            const option = document.createElement('option');
+            option.value = code;
+            option.textContent = `${name} (${code})`;
+            dubSelect.appendChild(option);
+        });
+
+        dubSelector.appendChild(dubSelect);
+        videoOptions.appendChild(dubSelector);
 
         dialogContent.appendChild(videoOptions);
 
@@ -359,8 +499,9 @@
         const savedQuality = localStorage.getItem('cobaltToolsQuality') || '1080p';
         const savedMode = localStorage.getItem('cobaltToolsMode') || 'video';
         const savedAudioCodec = localStorage.getItem('cobaltToolsAudioCodec') || 'mp3';
+        const savedDub = localStorage.getItem('cobaltToolsDub') || '';
 
-        return { dialog, backdrop, savedCodec, savedQuality, savedMode, savedAudioCodec };
+        return { dialog, backdrop, savedCodec, savedQuality, savedMode, savedAudioCodec, savedDub };
     }
 
     function closeDialog(dialog, backdrop) {
@@ -382,24 +523,37 @@
         const baseUrl = 'https://exyezed.vercel.app/api/cobalt/video';
         let endpoint;
 
-        const qualityMap = {
-            '144p': '144',
-            '240p': '240',
-            '360p': '360',
-            '480p': '480',
-            '720p': '720',
+        const dubSelect = dialog.querySelector('.dub-select');
+        const selectedDub = dubSelect ? dubSelect.value : '';
 
-            '1080p': '1080',
-            '1440p': '1440',
-            '4k': '2160',
-            '8k+': '4320'
-        };
-
-        if (quality === '8k+' || quality === '4320p') {
-            endpoint = `${baseUrl}/${codec}/max/${videoId}`;
+        if (codec === 'dub') {
+            endpoint = `${baseUrl}/dub/${videoId}`;
+            if (selectedDub) {
+                endpoint += `/${selectedDub}`;
+            }
         } else {
-            const mappedQuality = qualityMap[quality] || quality.replace('p', '');
-            endpoint = `${baseUrl}/${codec}/${mappedQuality}/${videoId}`;
+            const qualityMap = {
+                '144p': '144',
+                '240p': '240',
+                '360p': '360',
+                '480p': '480',
+                '720p': '720',
+                '1080p': '1080',
+                '1440p': '1440',
+                '4k': '2160',
+                '8k+': '4320'
+            };
+
+            if (quality === '8k+' || quality === '4320p') {
+                endpoint = `${baseUrl}/${codec}/max/${videoId}`;
+            } else {
+                const mappedQuality = qualityMap[quality] || quality.replace('p', '');
+                endpoint = `${baseUrl}/${codec}/${mappedQuality}/${videoId}`;
+            }
+
+            if (selectedDub) {
+                endpoint += `/${selectedDub}`;
+            }
         }
 
         GM.xmlHttpRequest({
@@ -599,7 +753,7 @@
         const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
 
         if (isAudioMode) {
-            path.setAttribute('d', 'M64 0C28.7 0 0 28.7 0 64L0 448c0 35.3 28.7 64 64 64l256 0c35.3 0 64-28.7 64-64l0-288-128 0c-17.7 0-32-14.3-32-32L224 0 64 0zM256 0l0 128 128 0L256 0zm32 224l0 32 0 128c0 17.7-21.5 32-48 32s-48-14.3-48-32s21.5-32 48-32c5.6 0 11 .6 16 1.8l0-74.7-96 36L160 416c0 17.7-21.5 32-48 32s-48-14.3-48-32s21.5-32 48-32c5.6 0 11 .6 16 1.8l0-81.8 0-32c0-6.7 4.1-12.6 10.4-15l128-48c4.9-1.8 10.4-1.2 14.7 1.8s6.9 7.9 6.9 13.2z');
+            path.setAttribute('d', 'M64 0C28.7 0 0 28.7 0 64L0 448c0 35.3 28.7 64 64 64l256 0c35.3 0 64-28.7 64-64l0-288-128 0c-17.7 0-32-14.3-32-32L224 0 64 0zM256 0l0 128 128 0L256 0zm2 226.3c37.1 22.4 62 63.1 62 109.7s-24.9 87.3-62 109.7c-7.6 4.6-17.4 2.1-22-5.4s-2.1-17.4 5.4-22C269.4 401.5 288 370.9 288 336s-18.6-65.5-46.5-82.3c-7.6-4.6-10-14.4-5.4-22s14.4-10 22-5.4zm-91.9 30.9c6 2.5 9.9 8.3 9.9 14.8l0 128c0 6.5-3.9 12.3-9.9 14.8s-12.9 1.1-17.4-3.5L113.4 376 80 376c-8.8 0-16-7.2-16-16l0-48c0-8.8 7.2-16 16-16l33.4 0 35.3-35.3c4.6-4.6 11.5-5.9 17.4-3.5zm51 34.9c6.6-5.9 16.7-5.3 22.6 1.3C249.8 304.6 256 319.6 256 336s-6.2 31.4-16.3 42.7c-5.9 6.6-16 7.1-22.6 1.3s-7.1-16-1.3-22.6c5.1-5.7 8.1-13.1 8.1-21.3s-3.1-15.7-8.1-21.3c-5.9-6.6-5.3-16.7 1.3-22.6z');
         } else {
             path.setAttribute('d', 'M64 0C28.7 0 0 28.7 0 64L0 448c0 35.3 28.7 64 64 64l256 0c35.3 0 64-28.7 64-64l0-288-128 0c-17.7 0-32-14.3-32-32L224 0 64 0zM256 0l0 128 128 0L256 0zM64 288c0-17.7 14.3-32 32-32l96 0c17.7 0 32 14.3 32 32l0 96c0 17.7-14.3 32-32 32l-96 0c-17.7 0-32-14.3-32-32l0-96zM300.9 397.9L256 368l0-64 44.9-29.9c2-1.3 4.4-2.1 6.8-2.1c6.8 0 12.3 5.5 12.3 12.3l0 103.4c0 6.8-5.5 12.3-12.3 12.3c-2.4 0-4.8-.7-6.8-2.1z');
         }
@@ -609,7 +763,7 @@
     }
 
     function modifyQualityOptionsAndRemoveElements() {
-        const { dialog, backdrop, savedCodec, savedMode, savedAudioCodec } = createDownloadDialog();
+        const { dialog, backdrop, savedCodec, savedMode, savedAudioCodec, savedDub } = createDownloadDialog();
         let currentVideoId = null;
         let selectedVideoCodec = savedCodec;
         let selectedAudioCodec = savedAudioCodec;
@@ -626,6 +780,7 @@
         const modeSwitch = dialog.querySelector('#mode-switch');
         const videoOptions = dialog.querySelector('#video-options');
         const audioOptions = dialog.querySelector('#audio-options');
+        const dubSelector = dialog.querySelector('.dub-selector');
 
         function updateModeSwitchAndOptions() {
             updateModeSwitch(modeSwitch, isAudioMode);
@@ -670,6 +825,14 @@
             } else {
                 updateQualityOptions(dialog, selectedVideoCodec, localStorage.getItem('cobaltToolsQuality') || '1080p');
             }
+
+            if (selectedVideoCodec === 'dub') {
+                dubSelector.style.display = 'block';
+                dialog.querySelector('#quality-options').style.display = 'none';
+            } else {
+                dubSelector.style.display = 'none';
+                dialog.querySelector('#quality-options').style.display = 'grid';
+            }
         }
 
         const codecButtons = dialog.querySelectorAll('.codec-button');
@@ -687,6 +850,14 @@
         });
 
         updateCodecButtons();
+
+        const dubSelect = dialog.querySelector('.dub-select');
+        if (dubSelect) {
+            dubSelect.value = savedDub;
+            dubSelect.addEventListener('change', () => {
+                localStorage.setItem('cobaltToolsDub', dubSelect.value);
+            });
+        }
 
         const cancelButton = dialog.querySelector('#cancel-button');
         const downloadButton = dialog.querySelector('#download-button');
@@ -714,9 +885,13 @@
                         downloadAudio(selectedFormat, selectedBitrate, currentVideoId, dialog, backdrop);
                     }
                 } else {
-                    const selectedQuality = dialog.querySelector('input[name="quality"]:checked');
-                    if (selectedQuality && currentVideoId) {
-                        downloadVideo(selectedQuality.value, currentVideoId, selectedVideoCodec, dialog, backdrop);
+                    if (selectedVideoCodec === 'dub') {
+                        downloadVideo('dub', currentVideoId, 'dub', dialog, backdrop);
+                    } else {
+                        const selectedQuality = dialog.querySelector('input[name="quality"]:checked');
+                        if (selectedQuality && currentVideoId) {
+                            downloadVideo(selectedQuality.value, currentVideoId, selectedVideoCodec, dialog, backdrop);
+                        }
                     }
                 }
             });
@@ -738,7 +913,6 @@
     function enableDownloadButton(button) {
         button.classList.remove('yt-spec-button-shape-next--disabled');
         button.classList.add('yt-spec-button-shape-next--mono');
-
         button.removeAttribute('disabled');
         button.setAttribute('aria-disabled', 'false');
     }
@@ -764,8 +938,7 @@
                     const addedNodes = mutation.addedNodes;
                     for(let node of addedNodes) {
                         if(node.nodeType === Node.ELEMENT_NODE) {
-                            const disabledButtons =
-                                node.querySelectorAll('button[aria-label="Download"][disabled], button[aria-label="Download"][aria-disabled="true"]');
+                            const disabledButtons = node.querySelectorAll('button[aria-label="Download"][disabled], button[aria-label="Download"][aria-disabled="true"]');
                             disabledButtons.forEach(button => {
                                 enableDownloadButton(button);
                             });
@@ -800,4 +973,4 @@
 
     interceptDownloadButton();
     console.log('Cobalt Tools (YouTube Direct Downloader) is running');
-    })();
+})();
