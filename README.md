@@ -18,27 +18,35 @@ Integrate a high-quality 320kbps audio download button before the video title.
 
 ## 2. Cobalt Tools (Direct YouTube Video Downloader)
 
-Bypass the download button and provide options to download the video and audio dubs directly from the YouTube page.
+Bypass the download button and provide options to download the video or video dubs directly from the YouTube page.
 
 #### [Install Script](https://update.greasyfork.org/scripts/515024/Cobalt%20Tools%20%28Direct%20YouTube%20Video%20Downloader%29.user.js)
 
-![image](https://github.com/user-attachments/assets/f5c7799c-d607-41db-a5c6-5d8bbebda7aa)
+![chrome_18OUHezJ6k](https://github.com/user-attachments/assets/14181ee3-e82d-48d8-8a8a-e0508b568727)
 
 > Allows downloading videos with dubs if available.
 
-![image](https://github.com/user-attachments/assets/34a77855-b993-4a12-9cbb-2f4b689091e5)
+![chrome_TYHQ1YY7bL](https://github.com/user-attachments/assets/096d621d-c6b0-45ae-b616-434e996772cb)
 
-![image](https://github.com/user-attachments/assets/9fc717ee-2872-42d6-be2d-c46b2ed3b7f6)
+![chrome_DGJbBvRQxF](https://github.com/user-attachments/assets/e1be93cf-cbbe-412e-bc9c-2015f8b78568)
 
 ## 3. Cobalt Tools (YouTube Direct Downloader)
 
-Bypass the download button and display options to download the video or audio directly from the YouTube page.
+Bypass the download button and provide options to download the video, video dubs, or audio directly from the YouTube page.
 
 #### [Install Script](https://update.greasyfork.org/scripts/515230/Cobalt%20Tools%20%28YouTube%20Direct%20Downloader%29.user.js)
 
-![image](https://github.com/user-attachments/assets/ec4eb5f6-248a-4166-8cc7-aed91d2a74da)
+![chrome_1k5JHFgAwV](https://github.com/user-attachments/assets/2c85f272-f771-4eaa-af28-398218985a07)
 
-![image](https://github.com/user-attachments/assets/1ca2f0d0-85d4-4486-882a-c6dad4c0b4d9)
+![NQlVrEWuBt](https://github.com/user-attachments/assets/c4aea677-38d2-4c26-b2bc-9a326185a25d)
+
+> Allows downloading videos with dubs if available.
+
+![chrome_LiRfuIoIMx](https://github.com/user-attachments/assets/36840ae7-bcd1-4a18-a9b6-3a7d0abe4081)
+
+![7hTotiN4g3](https://github.com/user-attachments/assets/ac7b38fa-443e-4a1f-9710-61acafd9a5dd)
+
+
 
 ## 4. Cobalt Tools (SoundCloud Direct Downloader)
 
