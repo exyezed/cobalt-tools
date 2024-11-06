@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Cobalt Tools (Direct YouTube Video Downloader)
-// @description  Bypass the download button and provide options to download the video and audio dubs directly from the YouTube page.
+// @description  Bypass the download button and provide options to download the video or video dubs directly from the YouTube page.
 // @icon         https://raw.githubusercontent.com/exyezed/cobalt-tools/refs/heads/main/extras/cobalt-tools.png
 // @version      1.7
 // @author       exyezed
