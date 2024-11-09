@@ -14,7 +14,7 @@ Integrate a high-quality 320kbps audio download button before the video title.
 
 #### [Install Script](https://update.greasyfork.org/scripts/515023/Cobalt%20Tools%20%28Direct%20YouTube%20Audio%20Downloader%29.user.js)
 
-![image](https://github.com/user-attachments/assets/1ad2713c-11c4-44ba-95c0-20c174ef4906)
+![chrome_pdtMdZPzKb](https://github.com/user-attachments/assets/2f0f20f9-50ab-451f-828d-540d6636b87c)
 
 ## 2. Cobalt Tools (Direct YouTube Video Downloader)
 
