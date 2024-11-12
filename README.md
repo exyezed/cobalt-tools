@@ -64,4 +64,20 @@ Integrate a download button for SoundCloud tracks and open original cover art.
 
 ![image](https://github.com/user-attachments/assets/6171a4fe-943b-4edd-b259-c947262df021)
 
+## 5. Cobalt Tools (YouTube Bulk Downloader)
+
+Integrates a cobalt.tools button into YouTube channel pages, directing users to a bulk video download page.
+
+#### [Install Script](https://update.greasyfork.org/scripts/516958/Cobalt%20Tools%20%28YouTube%20Bulk%20Downloader%29.user.js)
+
+![chrome_fR1q7jjSzq](https://github.com/user-attachments/assets/e03bcf68-c51d-4305-b94b-ede4a9e81024)
+
+> Screenshots
+
+![chrome_rEtiYSecwc](https://github.com/user-attachments/assets/5fa17fdf-6f59-44aa-a617-c94dbc855707)
+
+![OY8AGUZKDs](https://github.com/user-attachments/assets/6df753b0-41c0-4706-8cf6-91a42b18a1c5)
+
+![NUqZL3TUWw](https://github.com/user-attachments/assets/43c28df1-cc2d-47ab-a717-6dd1f4ab1f6a)
+
 #### Thanks to [cobalt](https://github.com/imputnet/cobalt)
