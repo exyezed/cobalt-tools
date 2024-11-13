@@ -2,7 +2,7 @@
 // @name         Cobalt Tools (YouTube Bulk Downloader)
 // @description  Integrates a cobalt.tools button into YouTube channel pages, directing users to a bulk video download page.
 // @icon         https://raw.githubusercontent.com/exyezed/cobalt-tools/refs/heads/main/extras/cobalt-tools.png
-// @version      1.0
+// @version      1.1
 // @author       exyezed
 // @namespace    https://github.com/exyezed/cobalt-tools/
 // @supportURL   https://github.com/exyezed/cobalt-tools/issues
@@ -62,7 +62,7 @@
         button.addEventListener('click', () => {
             const identifier = getChannelIdentifier();
             if (identifier) {
-                const url = `https://cobaltapis.vercel.app/api/cobalt/channel/${identifier}`;
+                const url = `https://cobaltapis.vercel.app/channel/${identifier}`;
                 window.open(url, '_blank');
             }
         });
@@ -89,7 +89,7 @@
 
         const buttonText = document.createElement('div');
         buttonText.className = 'yt-spec-button-shape-next__button-text-content cobalt-tools-text';
-        buttonText.textContent = 'cobalt.tools';
+        buttonText.textContent = 'cobalt';
         buttonText.style.display = 'flex';
         buttonText.style.alignItems = 'center';
 
