@@ -70,14 +70,14 @@ Integrates a cobalt.tools button into YouTube channel pages, directing users to 
 
 #### [Install Script](https://update.greasyfork.org/scripts/516958/Cobalt%20Tools%20%28YouTube%20Bulk%20Downloader%29.user.js)
 
-![chrome_fR1q7jjSzq](https://github.com/user-attachments/assets/e03bcf68-c51d-4305-b94b-ede4a9e81024)
+![chrome_yW1RKXfNPE](https://github.com/user-attachments/assets/9f61beed-45c7-481f-ad23-05a88519be53)
 
 > Screenshots
 
-![chrome_rEtiYSecwc](https://github.com/user-attachments/assets/5fa17fdf-6f59-44aa-a617-c94dbc855707)
+![chrome_w9PACXOOTH](https://github.com/user-attachments/assets/04b0a610-2948-4f47-a1ef-24809f51e739)
 
-![OY8AGUZKDs](https://github.com/user-attachments/assets/6df753b0-41c0-4706-8cf6-91a42b18a1c5)
+![W0DzUp4y4d](https://github.com/user-attachments/assets/9417fe5d-48d4-4b17-b1c3-d23bccd5ca8a)
 
-![NUqZL3TUWw](https://github.com/user-attachments/assets/43c28df1-cc2d-47ab-a717-6dd1f4ab1f6a)
+![6kh5RVkk4c](https://github.com/user-attachments/assets/fff2377f-089d-4ff1-8d3b-1ec9faf2cb2d)
 
 #### Thanks to [cobalt](https://github.com/imputnet/cobalt)
