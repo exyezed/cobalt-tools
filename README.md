@@ -80,4 +80,20 @@ Integrates a cobalt.tools button into YouTube channel pages, directing users to 
 
 ![image](https://github.com/user-attachments/assets/c77c48d9-f0ba-492e-91ae-d04428bf4553)
 
+## 5. Cobalt Tools (YouTube Playlist Downloader)
+
+Adds a cobalt.tools button to YouTube playlists, redirecting users to a playlist download page.
+
+#### [Install Script](https://update.greasyfork.org/scripts/518132/Cobalt%20Tools%20%28YouTube%20Playlist%20Downloader%29.user.js)
+
+![chrome_8aEjTWRPiO](https://github.com/user-attachments/assets/cf9d1c23-1bdb-4dca-be7e-ce2f02849ffc)
+
+> Screenshots
+
+![chrome_jElmH1CG2L](https://github.com/user-attachments/assets/8eab0097-f60b-47ec-b362-a156a0a3be82)
+
+![image](https://github.com/user-attachments/assets/c0ef8427-e517-403d-be02-ef56b75923c7)
+
+![image](https://github.com/user-attachments/assets/c3d2622f-153a-4d2f-a6a5-481cf6720f80)
+
 #### Thanks to [cobalt](https://github.com/imputnet/cobalt)
