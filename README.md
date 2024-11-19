@@ -74,10 +74,10 @@ Integrates a cobalt.tools button into YouTube channel pages, directing users to 
 
 > Screenshots
 
-![chrome_w9PACXOOTH](https://github.com/user-attachments/assets/04b0a610-2948-4f47-a1ef-24809f51e739)
+![image](https://github.com/user-attachments/assets/2f91becc-d014-4b26-8ff4-6586d3fd757f)
 
-![W0DzUp4y4d](https://github.com/user-attachments/assets/9417fe5d-48d4-4b17-b1c3-d23bccd5ca8a)
+![image](https://github.com/user-attachments/assets/4452146c-e8ed-4a17-a263-e5a113999816)
 
-![6kh5RVkk4c](https://github.com/user-attachments/assets/fff2377f-089d-4ff1-8d3b-1ec9faf2cb2d)
+![image](https://github.com/user-attachments/assets/c77c48d9-f0ba-492e-91ae-d04428bf4553)
 
 #### Thanks to [cobalt](https://github.com/imputnet/cobalt)
