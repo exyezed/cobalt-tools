@@ -2,7 +2,7 @@
 // @name         Cobalt Tools (SoundCloud Direct Downloader)
 // @description  Integrate a download button for SoundCloud tracks and open original cover art.
 // @icon         https://raw.githubusercontent.com/exyezed/cobalt-tools/refs/heads/main/extras/cobalt-tools.png
-// @version      1.2
+// @version      1.3
 // @author       exyezed
 // @namespace    https://github.com/exyezed/cobalt-tools/
 // @supportURL   https://github.com/exyezed/cobalt-tools/issues
@@ -350,10 +350,14 @@
             setTimeout(() => {
                 const downloadLink = document.createElement('a');
                 downloadLink.href = URL.createObjectURL(finalBlob);
-                const fileName = metadata.title && metadata.artist ? 
+                let fileName = metadata.title && metadata.artist ? 
                     `${metadata.title} - ${metadata.artist}` : 
                     metadata.title || audioData.title || 'soundcloud_track';
-                downloadLink.download = fileName.replace(/[<>:"/\\|?*]/g, '-');
+                fileName = fileName.replace(/[<>:"/\\|?*]/g, '-');
+                if (!fileName.toLowerCase().endsWith('.mp3')) {
+                    fileName += '.mp3';
+                }
+                downloadLink.download = fileName;
                 document.body.appendChild(downloadLink);
                 downloadLink.click();
                 document.body.removeChild(downloadLink);
@@ -430,10 +434,14 @@
             setTimeout(() => {
                 const downloadLink = document.createElement('a');
                 downloadLink.href = URL.createObjectURL(finalBlob);
-                const fileName = metadata.title && metadata.artist ? 
+                let fileName = metadata.title && metadata.artist ? 
                     `${metadata.title} - ${metadata.artist}` : 
                     metadata.title || audioData.title || 'soundcloud_track';
-                downloadLink.download = fileName.replace(/[<>:"/\\|?*]/g, '-');
+                fileName = fileName.replace(/[<>:"/\\|?*]/g, '-');
+                if (!fileName.toLowerCase().endsWith('.mp3')) {
+                    fileName += '.mp3';
+                }
+                downloadLink.download = fileName;
                 document.body.appendChild(downloadLink);
                 downloadLink.click();
                 document.body.removeChild(downloadLink);
