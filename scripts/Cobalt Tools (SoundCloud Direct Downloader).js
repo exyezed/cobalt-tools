@@ -2,7 +2,7 @@
 // @name         Cobalt Tools (SoundCloud Direct Downloader)
 // @description  Integrate a download button for SoundCloud tracks and open original cover art.
 // @icon         https://raw.githubusercontent.com/exyezed/cobalt-tools/refs/heads/main/extras/cobalt-tools.png
-// @version      1.1
+// @version      1.2
 // @author       exyezed
 // @namespace    https://github.com/exyezed/cobalt-tools/
 // @supportURL   https://github.com/exyezed/cobalt-tools/issues
@@ -10,6 +10,7 @@
 // @match        https://soundcloud.com/*
 // @grant        GM.xmlHttpRequest
 // @connect      exyezed.vercel.app
+// @require      https://cdn.jsdelivr.net/npm/browser-id3-writer@4.4.0/dist/browser-id3-writer.min.js
 // ==/UserScript==
 
 (function() {
@@ -263,9 +264,17 @@
         });
     }
 
-    function handleDownload(svgElement, trackUrl) {
-        let fullUrl;
+    function formatDateForID3(dateString) {
+        const date = new Date(dateString);
+        return {
+            year: date.getFullYear(),
+            date: `${String(date.getDate()).padStart(2, '0')}${String(date.getMonth() + 1).padStart(2, '0')}`
+        };
+    }
 
+    async function handleDownload(svgElement, trackUrl) {
+        let fullUrl;
+    
         if (trackUrl) {
             fullUrl = trackUrl;
         } else {
@@ -277,83 +286,163 @@
             const href = trackLink.getAttribute('href');
             fullUrl = href.startsWith('http') ? href : `https://soundcloud.com${href}`;
         }
-
-        console.log('Track URL:', fullUrl);
+    
         showLoading(svgElement);
-
-        const apiUrl = `https://exyezed.vercel.app/api/cobalt/soundcloud/${encodeURIComponent(fullUrl)}`;
-
-        GM.xmlHttpRequest({
-            method: "GET",
-            url: apiUrl,
-            onload: function(response) {
-                try {
-                    const data = JSON.parse(response.responseText);
-                    if (data.url) {
-                        showSuccess(svgElement);
-                        setTimeout(() => {
-                            const downloadLink = document.createElement('a');
-                            downloadLink.href = data.url;
-                            downloadLink.download = data.title || 'soundcloud_track';
-                            document.body.appendChild(downloadLink);
-                            downloadLink.click();
-                            document.body.removeChild(downloadLink);
-                            console.log('Download started');
-                        }, 1000);
-                    } else {
-                        console.error('Download URL not found in the response');
-                        showError(svgElement);
-                    }
-                } catch (e) {
-                    console.error('Error parsing response:', e);
-                    showError(svgElement);
-                }
-            },
-            onerror: function(error) {
-                console.error('Error downloading track:', error);
-                showError(svgElement);
+    
+        try {
+            const [audioResponse, metadataResponse] = await Promise.all([
+                new Promise((resolve, reject) => {
+                    GM.xmlHttpRequest({
+                        method: "GET",
+                        url: `https://exyezed.vercel.app/api/cobalt/soundcloud/${encodeURIComponent(fullUrl)}`,
+                        onload: resolve,
+                        onerror: reject
+                    });
+                }),
+                new Promise((resolve, reject) => {
+                    GM.xmlHttpRequest({
+                        method: "GET",
+                        url: `https://exyezed.vercel.app/api/cobalt/soundcloud/metadata/${encodeURIComponent(fullUrl)}`,
+                        onload: resolve,
+                        onerror: reject
+                    });
+                })
+            ]);
+    
+            const audioData = JSON.parse(audioResponse.responseText);
+            const metadata = JSON.parse(metadataResponse.responseText);
+    
+            if (!audioData.url) {
+                throw new Error('Download URL not found in the response');
             }
-        });
+    
+            const audioBlob = await fetch(audioData.url).then(r => r.blob());
+            const arrayBuffer = await new Response(audioBlob).arrayBuffer();
+            const writer = new ID3Writer(arrayBuffer);
+            writer.removeTag();
+    
+            if (metadata.pubdate) {
+                const { year, date } = formatDateForID3(metadata.pubdate);
+                writer
+                    .setFrame('TYER', year.toString())
+                    .setFrame('TDAT', date);
+            }
+    
+            writer
+                .setFrame('TIT2', metadata.title)
+                .setFrame('TPE1', [metadata.artist]);
+    
+            if (metadata.cover) {
+                const coverResponse = await fetch(metadata.cover);
+                const coverArrayBuffer = await coverResponse.arrayBuffer();
+                writer.setFrame('APIC', {
+                    type: 3,
+                    data: coverArrayBuffer,
+                    description: 'Cover'
+                });
+            }
+    
+            writer.addTag();
+            const taggedArrayBuffer = writer.arrayBuffer;
+            const finalBlob = new Blob([taggedArrayBuffer], { type: 'audio/mpeg' });
+    
+            showSuccess(svgElement);
+            setTimeout(() => {
+                const downloadLink = document.createElement('a');
+                downloadLink.href = URL.createObjectURL(finalBlob);
+                const fileName = metadata.title && metadata.artist ? 
+                    `${metadata.title} - ${metadata.artist}` : 
+                    metadata.title || audioData.title || 'soundcloud_track';
+                downloadLink.download = fileName.replace(/[<>:"/\\|?*]/g, '-');
+                document.body.appendChild(downloadLink);
+                downloadLink.click();
+                document.body.removeChild(downloadLink);
+                URL.revokeObjectURL(downloadLink.href);
+            }, 1000);
+    
+        } catch (error) {
+            showError(svgElement);
+        }
     }
-
-    function handleDownloadURL(svgElement) {
+    
+    async function handleDownloadURL(svgElement) {
         const currentURL = window.location.href;
-        console.log('Current URL:', currentURL);
         showLoading(svgElement);
-
-        const apiUrl = `https://exyezed.vercel.app/api/cobalt/soundcloud/${encodeURIComponent(currentURL)}`;
-
-        GM.xmlHttpRequest({
-            method: "GET",
-            url: apiUrl,
-            onload: function(response) {
-                try {
-                    const data = JSON.parse(response.responseText);
-                    if (data.url) {
-                        showSuccess(svgElement);
-                        setTimeout(() => {
-                            const downloadLink = document.createElement('a');
-                            downloadLink.href = data.url;
-                            downloadLink.download = data.title || 'soundcloud_track';
-                            document.body.appendChild(downloadLink);
-                            downloadLink.click();
-                            document.body.removeChild(downloadLink);
-                            console.log('Download started');
-                        }, 1000);
-                    } else {
-                        console.error('Download URL not found in the response');
-                        showError(svgElement);
-                    }
-                } catch (e) {
-                    console.error('Error parsing response:', e);
-                    showError(svgElement);
-                }
-            },
-            onerror: function(error) {
-                console.error('Error downloading track:', error);
-                showError(svgElement);
+    
+        try {
+            const [audioResponse, metadataResponse] = await Promise.all([
+                new Promise((resolve, reject) => {
+                    GM.xmlHttpRequest({
+                        method: "GET",
+                        url: `https://exyezed.vercel.app/api/cobalt/soundcloud/${encodeURIComponent(currentURL)}`,
+                        onload: resolve,
+                        onerror: reject
+                    });
+                }),
+                new Promise((resolve, reject) => {
+                    GM.xmlHttpRequest({
+                        method: "GET",
+                        url: `https://exyezed.vercel.app/api/cobalt/soundcloud/metadata/${encodeURIComponent(currentURL)}`,
+                        onload: resolve,
+                        onerror: reject
+                    });
+                })
+            ]);
+    
+            const audioData = JSON.parse(audioResponse.responseText);
+            const metadata = JSON.parse(metadataResponse.responseText);
+    
+            if (!audioData.url) {
+                throw new Error('Download URL not found in the response');
             }
-        });
+    
+            const audioBlob = await fetch(audioData.url).then(r => r.blob());
+            const arrayBuffer = await new Response(audioBlob).arrayBuffer();
+            const writer = new ID3Writer(arrayBuffer);
+            writer.removeTag();
+    
+            if (metadata.pubdate) {
+                const { year, date } = formatDateForID3(metadata.pubdate);
+                writer
+                    .setFrame('TYER', year.toString())
+                    .setFrame('TDAT', date);
+            }
+    
+            writer
+                .setFrame('TIT2', metadata.title)
+                .setFrame('TPE1', [metadata.artist]);
+    
+            if (metadata.cover) {
+                const coverResponse = await fetch(metadata.cover);
+                const coverArrayBuffer = await coverResponse.arrayBuffer();
+                writer.setFrame('APIC', {
+                    type: 3,
+                    data: coverArrayBuffer,
+                    description: 'Cover'
+                });
+            }
+    
+            writer.addTag();
+            const taggedArrayBuffer = writer.arrayBuffer;
+            const finalBlob = new Blob([taggedArrayBuffer], { type: 'audio/mpeg' });
+    
+            showSuccess(svgElement);
+            setTimeout(() => {
+                const downloadLink = document.createElement('a');
+                downloadLink.href = URL.createObjectURL(finalBlob);
+                const fileName = metadata.title && metadata.artist ? 
+                    `${metadata.title} - ${metadata.artist}` : 
+                    metadata.title || audioData.title || 'soundcloud_track';
+                downloadLink.download = fileName.replace(/[<>:"/\\|?*]/g, '-');
+                document.body.appendChild(downloadLink);
+                downloadLink.click();
+                document.body.removeChild(downloadLink);
+                URL.revokeObjectURL(downloadLink.href);
+            }, 1000);
+    
+        } catch (error) {
+            showError(svgElement);
+        }
     }
 
     function openOriginalCoverArt() {
