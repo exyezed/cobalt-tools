@@ -8,6 +8,8 @@
 
 #### [Greasy Fork](https://greasyfork.org/en/users/1382928-exyezed) | [OpenUserJS](https://openuserjs.org/users/exyezed/scripts)
 
+![Total Installs](https://img.shields.io/badge/dynamic/json?color=%230072C6&label=Total%20Installs&query=$&url=https://forksinstalls.vercel.app/total/greasyfork.org/en/users/1382928-exyezed)
+
 ## 1. Cobalt Tools (Direct YouTube Audio Downloader)
 
 Integrate a high-quality 320kbps audio download button before the video title.
