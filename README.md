@@ -12,6 +12,8 @@
 
 Integrate a high-quality 320kbps audio download button before the video title.
 
+![Installs](https://img.shields.io/badge/dynamic/json?color=%232ea44f&label=Installs&query=$&url=https://forksinstalls.vercel.app/greasyfork.org/en/scripts/515023-cobalt-tools-direct-youtube-audio-downloader)
+
 #### [Install Script](https://update.greasyfork.org/scripts/515023/Cobalt%20Tools%20%28Direct%20YouTube%20Audio%20Downloader%29.user.js)
 
 ![chrome_pdtMdZPzKb](https://github.com/user-attachments/assets/2f0f20f9-50ab-451f-828d-540d6636b87c)
@@ -19,6 +21,8 @@ Integrate a high-quality 320kbps audio download button before the video title.
 ## 2. Cobalt Tools (Direct YouTube Video Downloader)
 
 Bypass the download button and provide options to download the video or video dubs directly from the YouTube page.
+
+![Installs](https://img.shields.io/badge/dynamic/json?color=%232ea44f&label=Installs&query=$&url=https://forksinstalls.vercel.app/greasyfork.org/en/scripts/515024-cobalt-tools-direct-youtube-video-downloader)
 
 #### [Install Script](https://update.greasyfork.org/scripts/515024/Cobalt%20Tools%20%28Direct%20YouTube%20Video%20Downloader%29.user.js)
 
@@ -33,6 +37,8 @@ Bypass the download button and provide options to download the video or video du
 ## 3. Cobalt Tools (YouTube Direct Downloader)
 
 Bypass the download button and provide options to download the video, video dubs, or audio directly from the YouTube page.
+
+![Installs](https://img.shields.io/badge/dynamic/json?color=%232ea44f&label=Installs&query=$&url=https://forksinstalls.vercel.app/greasyfork.org/en/scripts/515230-cobalt-tools-youtube-direct-downloader)
 
 #### [Install Script](https://update.greasyfork.org/scripts/515230/Cobalt%20Tools%20%28YouTube%20Direct%20Downloader%29.user.js)
 
@@ -54,6 +60,8 @@ Bypass the download button and provide options to download the video, video dubs
 
 Integrate a download button for SoundCloud tracks and open original cover art.
 
+![Installs](https://img.shields.io/badge/dynamic/json?color=%232ea44f&label=Installs&query=$&url=https://forksinstalls.vercel.app/greasyfork.org/en/scripts/515120-cobalt-tools-soundcloud-direct-downloader)
+
 #### [Install Script](https://update.greasyfork.org/scripts/515120/Cobalt%20Tools%20%28SoundCloud%20Direct%20Downloader%29.user.js)
 
 ![image](https://github.com/user-attachments/assets/29200e8a-1fce-4cd1-a5d6-ca24e57adb5c)
@@ -68,6 +76,8 @@ Integrate a download button for SoundCloud tracks and open original cover art.
 
 Integrates a cobalt.tools button into YouTube channel pages, directing users to a bulk video download page.
 
+![Installs](https://img.shields.io/badge/dynamic/json?color=%232ea44f&label=Installs&query=$&url=https://forksinstalls.vercel.app/greasyfork.org/en/scripts/516958-cobalt-tools-youtube-bulk-downloader)
+
 #### [Install Script](https://update.greasyfork.org/scripts/516958/Cobalt%20Tools%20%28YouTube%20Bulk%20Downloader%29.user.js)
 
 ![chrome_yW1RKXfNPE](https://github.com/user-attachments/assets/9f61beed-45c7-481f-ad23-05a88519be53)
@@ -80,9 +90,11 @@ Integrates a cobalt.tools button into YouTube channel pages, directing users to 
 
 ![image](https://github.com/user-attachments/assets/c77c48d9-f0ba-492e-91ae-d04428bf4553)
 
-## 5. Cobalt Tools (YouTube Playlist Downloader)
+## 6. Cobalt Tools (YouTube Playlist Downloader)
 
 Adds a cobalt.tools button to YouTube playlists, redirecting users to a playlist download page.
+
+![Installs](https://img.shields.io/badge/dynamic/json?color=%232ea44f&label=Installs&query=$&url=https://forksinstalls.vercel.app/greasyfork.org/en/scripts/518132-cobalt-tools-youtube-playlist-downloader)
 
 #### [Install Script](https://update.greasyfork.org/scripts/518132/Cobalt%20Tools%20%28YouTube%20Playlist%20Downloader%29.user.js)
 
