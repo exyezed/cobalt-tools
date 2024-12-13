@@ -2,7 +2,7 @@
 // @name         Cobalt Tools (YouTube Playlist Downloader)
 // @description  Adds a cobalt.tools button to YouTube playlists, redirecting users to a playlist download page.
 // @icon         https://raw.githubusercontent.com/exyezed/cobalt-tools/refs/heads/main/extras/cobalt-tools.png
-// @version      1.0
+// @version      1.1
 // @author       exyezed
 // @namespace    https://github.com/exyezed/cobalt-tools/
 // @supportURL   https://github.com/exyezed/cobalt-tools/issues
@@ -14,6 +14,10 @@
 
 (function() {
     'use strict';
+
+    const MAX_RETRIES = 5;
+    const RETRY_DELAY = 1000;
+    let retryCount = 0;
 
     function createSVGElement(tag, attrs) {
         const elem = document.createElementNS('http://www.w3.org/2000/svg', tag);
@@ -69,7 +73,7 @@
             border: none;
             padding: 0;
             position: relative;
-            transition: background-color 0.1s; /* Updated transition */
+            transition: background-color 0.1s;
             color: var(--yt-spec-text-primary);
         `;
 
@@ -92,46 +96,44 @@
     }
 
     function insertButton() {
+        if (retryCount >= MAX_RETRIES) {
+            console.log("Max retries reached. Stopping insertion attempts.");
+            return;
+        }
+
         var button = createCobaltPlaylistBtn();
         var targetElement = document.querySelector("#secondary #playlist-actions #start-actions #top-level-buttons-computed");
         
         if (targetElement && !targetElement.contains(button)) {
             targetElement.appendChild(button);
             console.log("Cobalt Playlist button successfully inserted.");
+            retryCount = 0;
         } else if (!targetElement) {
-            console.log("Target element not found. Retrying...");
-            setTimeout(insertButton, 1000);
+            console.log(`Target element not found. Retry attempt ${retryCount + 1}/${MAX_RETRIES}`);
+            retryCount++;
+            if (retryCount < MAX_RETRIES) {
+                setTimeout(insertButton, RETRY_DELAY);
+            }
         }
     }
 
-    function checkAndInsertButton() {
-        var existingButton = document.getElementById("cobaltPlaylistBtn");
-        var targetElement = document.querySelector("#secondary #playlist-actions #start-actions #top-level-buttons-computed");
-        
-        if (!existingButton || (targetElement && !targetElement.contains(existingButton))) {
-            insertButton();
-        }
+    // Wait for page load
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', insertButton);
+    } else {
+        insertButton();
     }
 
-    window.addEventListener('load', checkAndInsertButton);
-
-    const observer = new MutationObserver((mutations) => {
-        checkAndInsertButton();
-    });
-
-    observer.observe(document.body, {
-        childList: true,
-        subtree: true
-    });
-
-    let lastUrl = location.href; 
-    new MutationObserver(() => {
+    // Handle navigation
+    let lastUrl = location.href;
+    const urlObserver = new MutationObserver(() => {
         const url = location.href;
         if (url !== lastUrl) {
             lastUrl = url;
-            setTimeout(checkAndInsertButton, 1000);
+            retryCount = 0;
+            setTimeout(insertButton, RETRY_DELAY);
         }
-    }).observe(document, {subtree: true, childList: true});
+    });
 
-    setInterval(checkAndInsertButton, 5000);
+    urlObserver.observe(document, {subtree: true, childList: true});
 })();
