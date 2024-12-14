@@ -2,7 +2,7 @@
 // @name         Cobalt Tools (YouTube Playlist Downloader)
 // @description  Adds a cobalt.tools button to YouTube playlists, redirecting users to a playlist download page.
 // @icon         https://raw.githubusercontent.com/exyezed/cobalt-tools/refs/heads/main/extras/cobalt-tools.png
-// @version      1.1
+// @version      1.2
 // @author       exyezed
 // @namespace    https://github.com/exyezed/cobalt-tools/
 // @supportURL   https://github.com/exyezed/cobalt-tools/issues
@@ -117,14 +117,12 @@
         }
     }
 
-    // Wait for page load
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', insertButton);
     } else {
         insertButton();
     }
 
-    // Handle navigation
     let lastUrl = location.href;
     const urlObserver = new MutationObserver(() => {
         const url = location.href;
@@ -136,4 +134,5 @@
     });
 
     urlObserver.observe(document, {subtree: true, childList: true});
+    console.log('Cobalt Tools (YouTube Playlist Downloader) is running');
 })();
