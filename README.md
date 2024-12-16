@@ -10,33 +10,7 @@
 
 ![Total Installs](https://img.shields.io/badge/dynamic/json?color=%230072C6&label=Total%20Installs&query=$&url=https://forksinstalls.vercel.app/total/greasyfork.org/en/users/1382928-exyezed)
 
-## 1. Cobalt Tools (Direct YouTube Audio Downloader)
-
-Integrate a high-quality 320kbps audio download button before the video title.
-
-![Installs](https://img.shields.io/badge/dynamic/json?color=%232ea44f&label=Installs&query=$&url=https://forksinstalls.vercel.app/greasyfork.org/en/scripts/515023-cobalt-tools-direct-youtube-audio-downloader)
-
-#### [Install Script](https://update.greasyfork.org/scripts/515023/Cobalt%20Tools%20%28Direct%20YouTube%20Audio%20Downloader%29.user.js)
-
-![chrome_pdtMdZPzKb](https://github.com/user-attachments/assets/2f0f20f9-50ab-451f-828d-540d6636b87c)
-
-## 2. Cobalt Tools (Direct YouTube Video Downloader)
-
-Bypass the download button and provide options to download the video or video dubs directly from the YouTube page.
-
-![Installs](https://img.shields.io/badge/dynamic/json?color=%232ea44f&label=Installs&query=$&url=https://forksinstalls.vercel.app/greasyfork.org/en/scripts/515024-cobalt-tools-direct-youtube-video-downloader)
-
-#### [Install Script](https://update.greasyfork.org/scripts/515024/Cobalt%20Tools%20%28Direct%20YouTube%20Video%20Downloader%29.user.js)
-
-![chrome_PU1EAOqXJ8](https://github.com/user-attachments/assets/036e4297-1787-4534-b887-44f36c6f7e98)
-
-> Allows downloading videos with dubs if available.
-
-![chrome_ac1F9pIWmp](https://github.com/user-attachments/assets/b32d7750-f830-4d33-8b99-c7ec72f087e0)
-
-![otg3uHyn7l](https://github.com/user-attachments/assets/75cd366c-018a-4bf8-8001-f7076649b6b9)
-
-## 3. Cobalt Tools (YouTube Direct Downloader)
+## 1. Cobalt Tools (YouTube Direct Downloader)
 
 Bypass the download button and provide options to download the video, video dubs, or audio directly from the YouTube page.
 
@@ -58,7 +32,7 @@ Bypass the download button and provide options to download the video, video dubs
 
 ![s1YkzNzSuU](https://github.com/user-attachments/assets/0fc5985c-e4f5-49df-8d0e-366384f4553c)
 
-## 4. Cobalt Tools (SoundCloud Direct Downloader)
+## 2. Cobalt Tools (SoundCloud Direct Downloader)
 
 Integrate a download button for SoundCloud tracks and open original cover art.
 
@@ -74,7 +48,7 @@ Integrate a download button for SoundCloud tracks and open original cover art.
 
 ![image](https://github.com/user-attachments/assets/6171a4fe-943b-4edd-b259-c947262df021)
 
-## 5. Cobalt Tools (YouTube Bulk Downloader)
+## 3. Cobalt Tools (YouTube Bulk Downloader)
 
 Integrates a cobalt.tools button into YouTube channel pages, directing users to a bulk video download page.
 
@@ -92,7 +66,7 @@ Integrates a cobalt.tools button into YouTube channel pages, directing users to 
 
 ![image](https://github.com/user-attachments/assets/c77c48d9-f0ba-492e-91ae-d04428bf4553)
 
-## 6. Cobalt Tools (YouTube Playlist Downloader)
+## 4. Cobalt Tools (YouTube Playlist Downloader)
 
 Adds a cobalt.tools button to YouTube playlists, redirecting users to a playlist download page.
 
