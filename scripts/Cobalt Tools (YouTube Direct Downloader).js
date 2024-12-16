@@ -2,7 +2,7 @@
 // @name         Cobalt Tools (YouTube Direct Downloader)
 // @description  Bypass the download button and provide options to download the video, video dubs, or audio directly from the YouTube page.
 // @icon         https://raw.githubusercontent.com/exyezed/cobalt-tools/refs/heads/main/extras/cobalt-tools.png
-// @version      1.4
+// @version      1.5
 // @author       exyezed
 // @namespace    https://github.com/exyezed/cobalt-tools/
 // @supportURL   https://github.com/exyezed/cobalt-tools/issues
@@ -961,4 +961,5 @@
     }
 
     interceptDownloadButton();
+    console.log('Cobalt Tools (YouTube Direct Downloader) is running');
 })();
