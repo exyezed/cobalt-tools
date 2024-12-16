@@ -2,7 +2,7 @@
 // @name         Cobalt Tools (YouTube Direct Downloader)
 // @description  Bypass the download button and provide options to download the video, video dubs, or audio directly from the YouTube page.
 // @icon         https://raw.githubusercontent.com/exyezed/cobalt-tools/refs/heads/main/extras/cobalt-tools.png
-// @version      1.3
+// @version      1.4
 // @author       exyezed
 // @namespace    https://github.com/exyezed/cobalt-tools/
 // @supportURL   https://github.com/exyezed/cobalt-tools/issues
@@ -10,7 +10,7 @@
 // @match        https://www.youtube.com/*
 // @match        https://youtube.com/*
 // @grant        GM.xmlHttpRequest
-// @connect      exyezed.vercel.app
+// @connect      cobalt-api.ayo.tf
 // @run-at       document-end
 // ==/UserScript==
 
@@ -309,7 +309,7 @@
 
         const titleContainer = document.createElement('div');
         const titleLink = document.createElement('a');
-        titleLink.href = 'https://instances.cobalt.best/';
+        titleLink.href = 'https://greasyfork.org/en/users/1382928';
         titleLink.target = '_blank';
         titleLink.rel = 'noopener noreferrer';
         titleLink.className = 'title-link';
@@ -520,52 +520,29 @@
         statusElement.style.display = 'block';
         statusElement.textContent = 'Preparing download...';
 
-        const baseUrl = 'https://exyezed.vercel.app/api/cobalt/video';
-        let endpoint;
-
         const dubSelect = dialog.querySelector('.dub-select');
         const selectedDub = dubSelect ? dubSelect.value : '';
 
-        if (codec === 'dub') {
-            endpoint = `${baseUrl}/dub/${videoId}`;
-            if (selectedDub) {
-                endpoint += `/${selectedDub}`;
-            }
-        } else {
-            const qualityMap = {
-                '144p': '144',
-                '240p': '240',
-                '360p': '360',
-                '480p': '480',
-                '720p': '720',
-                '1080p': '1080',
-                '1440p': '1440',
-                '4k': '2160',
-                '8k+': '4320'
-            };
-
-            if (quality === '8k+' || quality === '4320p') {
-                endpoint = `${baseUrl}/${codec}/max/${videoId}`;
-            } else {
-                const mappedQuality = qualityMap[quality] || quality.replace('p', '');
-                endpoint = `${baseUrl}/${codec}/${mappedQuality}/${videoId}`;
-            }
-
-            if (selectedDub) {
-                endpoint += `/${selectedDub}`;
-            }
-        }
+        const payload = {
+            url: `https://www.youtube.com/watch?v=${videoId}`,
+            downloadMode: "auto",
+            filenameStyle: "basic",
+            videoQuality: quality.replace('p', ''),
+            youtubeVideoCodec: codec,
+            youtubeDubLang: selectedDub ? selectedDub : 'original'
+        };
 
         GM.xmlHttpRequest({
-            method: 'GET',
-            url: endpoint,
+            method: 'POST',
+            url: 'https://cobalt-api.ayo.tf/',
+            headers: {
+                'accept': 'application/json',
+                'content-type': 'application/json'
+            },
+            data: JSON.stringify(payload),
             responseType: 'json',
             onload: function(response) {
                 try {
-                    if (response.responseText.trim().startsWith('<')) {
-                        throw new Error('Received HTML instead of JSON. API endpoint might be down.');
-                    }
-
                     const data = JSON.parse(response.responseText);
                     if (data.url) {
                         statusElement.textContent = 'Starting download...';
@@ -580,12 +557,12 @@
                     }
                 } catch (error) {
                     statusElement.textContent = 'Error: API service might be temporarily unavailable';
-                    console.error('Error processing response:', error.message, 'Codec:', codec, 'Quality:', quality, 'Video ID:', videoId);
+                    console.error('Error processing response:', error);
                 }
             },
             onerror: function(error) {
                 statusElement.textContent = 'Network error. Please check your connection.';
-                console.error('Network error:', error, 'Codec:', codec, 'Quality:', quality, 'Video ID:', videoId);
+                console.error('Network error:', error);
             }
         });
     }
@@ -700,23 +677,35 @@
         statusElement.style.display = 'block';
         statusElement.textContent = 'Preparing audio download...';
 
-        let endpoint;
+        let payload;
         if (format === 'wav') {
-            endpoint = `https://exyezed.vercel.app/api/cobalt/audio/wav/${videoId}`;
+            payload = {
+                url: `https://www.youtube.com/watch?v=${videoId}`,
+                downloadMode: "audio",
+                filenameStyle: "basic",
+                audioFormat: "wav"
+            };
         } else {
-            endpoint = `https://exyezed.vercel.app/api/cobalt/audio/${format}/${bitrate}/${videoId}`;
+            payload = {
+                url: `https://www.youtube.com/watch?v=${videoId}`,
+                downloadMode: "audio",
+                filenameStyle: "basic",
+                audioFormat: format,
+                audioBitrate: bitrate
+            };
         }
 
         GM.xmlHttpRequest({
-            method: 'GET',
-            url: endpoint,
+            method: 'POST',
+            url: 'https://cobalt-api.ayo.tf/',
+            headers: {
+                'accept': 'application/json',
+                'content-type': 'application/json'
+            },
+            data: JSON.stringify(payload),
             responseType: 'json',
             onload: function(response) {
                 try {
-                    if (response.responseText.trim().startsWith('<')) {
-                        throw new Error('Received HTML instead of JSON. API endpoint might be down.');
-                    }
-
                     const data = JSON.parse(response.responseText);
                     if (data.url) {
                         statusElement.textContent = 'Starting audio download...';
@@ -731,12 +720,12 @@
                     }
                 } catch (error) {
                     statusElement.textContent = 'Error: API service might be temporarily unavailable';
-                    console.error('Error processing response:', error.message, 'Format:', format, 'Bitrate:', bitrate, 'Video ID:', videoId);
+                    console.error('Error processing response:', error);
                 }
             },
             onerror: function(error) {
                 statusElement.textContent = 'Network error. Please check your connection.';
-                console.error('Network error:', error, 'Format:', format, 'Bitrate:', bitrate, 'Video ID:', videoId);
+                console.error('Network error:', error);
             }
         });
     }
@@ -972,5 +961,4 @@
     }
 
     interceptDownloadButton();
-    console.log('Cobalt Tools (YouTube Direct Downloader) is running');
 })();
