@@ -2,7 +2,7 @@
 // @name         Cobalt Tools (YouTube Direct Downloader)
 // @description  Bypass the download button and provide options to download the video, video dubs, or audio directly from the YouTube page.
 // @icon         https://raw.githubusercontent.com/exyezed/cobalt-tools/refs/heads/main/extras/cobalt-tools.png
-// @version      1.5
+// @version      1.6
 // @author       exyezed
 // @namespace    https://github.com/exyezed/cobalt-tools/
 // @supportURL   https://github.com/exyezed/cobalt-tools/issues
@@ -10,7 +10,7 @@
 // @match        https://www.youtube.com/*
 // @match        https://youtube.com/*
 // @grant        GM.xmlHttpRequest
-// @connect      cobalt-api.ayo.tf
+// @connect      c.blahaj.ca
 // @run-at       document-end
 // ==/UserScript==
 
@@ -534,7 +534,7 @@
 
         GM.xmlHttpRequest({
             method: 'POST',
-            url: 'https://cobalt-api.ayo.tf/',
+            url: 'https://c.blahaj.ca/',
             headers: {
                 'accept': 'application/json',
                 'content-type': 'application/json'
@@ -697,7 +697,7 @@
 
         GM.xmlHttpRequest({
             method: 'POST',
-            url: 'https://cobalt-api.ayo.tf/',
+            url: 'https://c.blahaj.ca/',
             headers: {
                 'accept': 'application/json',
                 'content-type': 'application/json'
