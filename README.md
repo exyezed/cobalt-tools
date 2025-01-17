@@ -14,7 +14,7 @@
 
 Bypass the download button and provide options to download the video, video dubs, or audio directly from the YouTube page.
 
-![Installs](https://img.shields.io/badge/dynamic/json?color=%232ea44f&label=Installs&query=$&url=https://forksinstalls.vercel.app/greasyfork.org/en/scripts/515230-cobalt-tools-youtube-direct-downloader)
+![Installs](https://img.shields.io/badge/dynamic/json?color=%232ea44f&label=Installs&query=$&url=https://forksinstalls.vercel.app/greasyfork.org/en/scripts/524011-cobalt-tools-youtube-direct-downloader)
 
 #### [Install Script](https://update.greasyfork.org/scripts/515230/Cobalt%20Tools%20%28YouTube%20Direct%20Downloader%29.user.js)
 
