@@ -951,7 +951,7 @@
         setInterval(findAndEnableDownloadButtons, 2000);
 
         document.addEventListener('click', function(event) {
-            if(event.target.closest('button[aria-label="Download"]')) {
+            if(event.target.closest('ytd-menu-service-item-download-renderer')) {
                 event.stopPropagation();
                 event.preventDefault();
                 const customDialog = modifyQualityOptionsAndRemoveElements();
